@@ -15,11 +15,40 @@ from emotion_datasets.dataset_processing.base import (
     DownloadResult,
     ProcessingResult,
     DownloadError,
+    DatasetMetadata,
 )
 from emotion_datasets.utils import download, get_file_stats, update_manifest
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
+
+SENTIMENTAL_LIAR_METADATA = DatasetMetadata(
+    description="The Sentimental LIAR dataset, as processed using 'emotion_datasets'. Sentimental LIAR is a modified and further extended version of the LIAR extension introduced by Kirilin et al. Sentiments are derived using the Google NLP API, whereas emotion scores were extracted using the IBM NLP API for each claim, which determine the detected level of 6 emotional states namely anger, sadness, disgust, fear and joy.",
+    citation=(
+        "@inproceedings{upadhayay2020sentimental,"
+        "    title={Sentimental LIAR: Extended Corpus and Deep Learning Models for Fake Claim Classification},"
+        "    author={Upadhayay, Bibek and Behzadan, Vahid},"
+        "    booktitle={2020 IEEE International Conference on Intelligence and Security Informatics (ISI)},"
+        "    pages={1--6},"
+        "    year={2020},"
+        "    organization={IEEE}"
+        "}"
+    ),
+    homepage="https://github.com/UNHSAILLab/SentimentalLIAR",
+    license="",
+    emotions=[
+        "sentiment",
+        "anger",
+        "fear",
+        "joy",
+        "disgust",
+        "sad",
+    ],
+    multilabel=True,
+    continuous=True,
+    system="Automated emotion annotation using Google and IBM NLP APIs",
+    domain="Short snippets from politicians and famous people",
+)
 
 
 @dataclasses.dataclass
@@ -47,6 +76,9 @@ class SentimentalLIARProcessor(DatasetBase):
         ]
     )
 
+    def get_metadata(self) -> DatasetMetadata:
+        return SENTIMENTAL_LIAR_METADATA
+
     def download_files(
         self, downloads_dir: pathlib.Path
     ) -> SentimentalLIARDownloadResult:
@@ -58,7 +90,7 @@ class SentimentalLIARProcessor(DatasetBase):
             data_file_name = pathlib.Path(data_file).name
 
             logger.info(
-                f"Download - Downloading metadata file {i+1}/{len(self.data_files)}: {data_file}"
+                f"Download - Downloading metadata file {i + 1}/{len(self.data_files)}: {data_file}"
             )
             logger.info(f"Download - Source: {data_file}")
 
@@ -142,19 +174,11 @@ class SentimentalLIARProcessor(DatasetBase):
 
             logger.info("Processing - Ingested handoff file using HuggingFace")
 
-            hf_dataset.info.description = "The Sentimental LIAR dataset, as processed using 'emotion_datasets'. Sentimental LIAR is a modified and further extended version of the LIAR extension introduced by Kirilin et al. Sentiments are derived using the Google NLP API, whereas emotion scores were extracted using the IBM NLP API for each claim, which determine the detected level of 6 emotional states namely anger, sadness, disgust, fear and joy."
-
-            hf_dataset.info.citation = """@inproceedings{upadhayay2020sentimental,
-                title={Sentimental LIAR: Extended Corpus and Deep Learning Models for Fake Claim Classification},
-                author={Upadhayay, Bibek and Behzadan, Vahid},
-                booktitle={2020 IEEE International Conference on Intelligence and Security Informatics (ISI)},
-                pages={1--6},
-                year={2020},
-                organization={IEEE}
-            }
-            """
-
-            hf_dataset.info.homepage = "https://github.com/UNHSAILLab/SentimentalLIAR"
+            hf_dataset.info.dataset_name = self.name
+            hf_dataset.info.description = self.get_metadata().description
+            hf_dataset.info.citation = self.get_metadata().citation
+            hf_dataset.info.homepage = self.get_metadata().homepage
+            hf_dataset.info.license = self.get_metadata().license
 
             logger.info(f"Processing - Saving HuggingFace dataset: {data_subdir}")
 

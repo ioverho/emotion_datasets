@@ -16,11 +16,35 @@ from emotion_datasets.dataset_processing.base import (
     DownloadResult,
     ProcessingResult,
     DownloadError,
+    DatasetMetadata,
 )
 from emotion_datasets.utils import download, get_file_stats, update_manifest
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
+
+FB_VALENCE_AROUSAL_METADATA = DatasetMetadata(
+    description="The Facebook Valence Arousal dataset, as processed using 'emotion_datasets'. A data set of 2895 Social Media posts rated by two psychologically-trained annotators on two separate ordinal (valence or sentiment, and arousal or intensity) nine-point scales.",
+    citation=(
+        "@inproceedings{preoctiuc2016modelling,"
+        "    title={Modelling valence and arousal in facebook posts},"
+        "    author={Preo{\\c{t}}iuc-Pietro, Daniel and Schwartz, H Andrew and Park, Gregory and Eichstaedt, Johannes and Kern, Margaret and Ungar, Lyle and Shulman, Elisabeth},"
+        "    booktitle={Proceedings of the 7th Workshop on Computational Approaches to Subjectivity, Sentiment and Social Media Analysis},"
+        "    pages={9--15},"
+        "    year={2016}"
+        "}"
+    ),
+    homepage="https://github.com/wwbp/additional_data_sets/tree/master/valence_arousal",
+    license="GPLv3",
+    emotions=[
+        "valence",
+        "arousal",
+    ],
+    multilabel=False,
+    continuous=True,
+    system="Valence Arousal",
+    domain="Facebook posts",
+)
 
 
 @dataclasses.dataclass
@@ -45,6 +69,9 @@ class FBValenceArousalProcessor(DatasetBase):
     name: str = "FBValenceArousal"
 
     url: str = "https://raw.githubusercontent.com/wwbp/additional_data_sets/refs/heads/master/valence_arousal/dataset-fb-valence-arousal-anon.csv"
+
+    def get_metadata(self) -> DatasetMetadata:
+        return FB_VALENCE_AROUSAL_METADATA
 
     def download_files(
         self, downloads_dir: pathlib.Path
@@ -141,21 +168,11 @@ class FBValenceArousalProcessor(DatasetBase):
 
             logger.info("Processing - Ingested handoff file using HuggingFace")
 
-            hf_dataset.info.description = "The Facebook Valence Arousal dataset, as processed using 'emotion_datasets'. A data set of 2895 Social Media posts rated by two psychologically-trained annotators on two separate ordinal (valence or sentiment, and arousal or intensity) nine-point scales."
-
-            hf_dataset.info.citation = (
-                "@inproceedings{preoctiuc2016modelling,"
-                "    title={Modelling valence and arousal in facebook posts},"
-                "    author={Preo{\\c{t}}iuc-Pietro, Daniel and Schwartz, H Andrew and Park, Gregory and Eichstaedt, Johannes and Kern, Margaret and Ungar, Lyle and Shulman, Elisabeth},"
-                "    booktitle={Proceedings of the 7th Workshop on Computational Approaches to Subjectivity, Sentiment and Social Media Analysis},"
-                "    pages={9--15},"
-                "    year={2016}"
-                "}"
-            )
-
-            hf_dataset.info.homepage = "https://github.com/wwbp/additional_data_sets/tree/master/valence_arousal"
-
-            hf_dataset.info.license = "GPLv3"
+            hf_dataset.info.dataset_name = self.name
+            hf_dataset.info.description = self.get_metadata().description
+            hf_dataset.info.citation = self.get_metadata().citation
+            hf_dataset.info.homepage = self.get_metadata().homepage
+            hf_dataset.info.license = self.get_metadata().license
 
             logger.info(f"Processing - Saving HuggingFace dataset: {data_subdir}")
 

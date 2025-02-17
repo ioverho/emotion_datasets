@@ -16,11 +16,41 @@ from emotion_datasets.dataset_processing.base import (
     DownloadResult,
     ProcessingResult,
     DownloadError,
+    DatasetMetadata,
 )
 from emotion_datasets.utils import download, get_file_stats, update_manifest
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
+
+SSEC_METADATA = DatasetMetadata(
+    description="The Stance Sentiment Emotion Corpus (SSEC) dataset, as processed using 'emotion_datasets'. The SSEC corpus is an annotation of the SemEval 2016 Twitter stance and sentiment corpus with emotion labels.",
+    citation=(
+        "@inproceedings{schuff2017annotation,"
+        "    title={Annotation, modelling and analysis of fine-grained emotions on a stance and sentiment detection corpus},"
+        "    author={Schuff, Hendrik and Barnes, Jeremy and Mohme, Julian and Pad{'o}, Sebastian and Klinger, Roman},"
+        "    booktitle={Proceedings of the 8th workshop on computational approaches to subjectivity, sentiment and social media analysis},"
+        "    pages={13--23},"
+        "    year={2017},"
+        "}"
+    ),
+    homepage="https://www.romanklinger.de/ssec/",
+    license="",
+    emotions=[
+        "anger",
+        "anticipation",
+        "disgust",
+        "fear",
+        "joy",
+        "sadness",
+        "surprise",
+        "trust",
+    ],
+    multilabel=True,
+    continuous=False,
+    system="A mixture between Plutchik and Ekman",
+    domain="Twitter posts",
+)
 
 
 @dataclasses.dataclass
@@ -46,6 +76,9 @@ class SSECProcessor(DatasetBase):
     file_names: typing.List[str] = dataclasses.field(
         default_factory=lambda: ["train-combined-0.0.csv", "test-combined-0.0.csv"]
     )
+
+    def get_metadata(self) -> DatasetMetadata:
+        return SSEC_METADATA
 
     def download_files(self, downloads_dir: pathlib.Path) -> SSECDownloadResult:
         downloads_subdir = downloads_dir / self.name
@@ -175,17 +208,11 @@ class SSECProcessor(DatasetBase):
 
             logger.info("Processing - Ingested handoff file using HuggingFace")
 
-            hf_dataset.info.description = "The Stance Sentiment Emotion Corpus (SSEC) dataset, as processed using 'emotion_datasets'. The SSEC corpus is an annotation of the SemEval 2016 Twitter stance and sentiment corpus with emotion labels."
-            hf_dataset.info.citation = """@inproceedings{schuff2017annotation,
-                title={Annotation, modelling and analysis of fine-grained emotions on a stance and sentiment detection corpus},
-                author={Schuff, Hendrik and Barnes, Jeremy and Mohme, Julian and Pad{\'o}, Sebastian and Klinger, Roman},
-                booktitle={Proceedings of the 8th workshop on computational approaches to subjectivity, sentiment and social media analysis},
-                pages={13--23},
-                year={2017}
-            }
-            """
-
-            hf_dataset.info.homepage = "https://www.romanklinger.de/ssec/"
+            hf_dataset.info.dataset_name = self.name
+            hf_dataset.info.description = self.get_metadata().description
+            hf_dataset.info.citation = self.get_metadata().citation
+            hf_dataset.info.homepage = self.get_metadata().homepage
+            hf_dataset.info.license = self.get_metadata().license
 
             logger.info(f"Processing - Saving HuggingFace dataset: {data_subdir}")
 

@@ -18,11 +18,46 @@ from emotion_datasets.dataset_processing.base import (
     ProcessingResult,
     DownloadError,
     DatasetProcessingError,
+    DatasetMetadata,
 )
 from emotion_datasets.utils import download, get_file_stats, update_manifest
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
+
+AFFECTIVE_TEXT_METADATA = DatasetMetadata(
+    description="The SeMEval-2007 Task 14: Affective Text dataset, as processed by 'emotion_datasets'. Affective Text is a data set consisting of 1000 test headlines and 200 development headlines, each of them annotated with the six Eckman emotions and the polarity orientation.",
+    citation=(
+        "@inproceedings{10.5555/1621474.1621487,"
+        "   author = {Strapparava, Carlo and Mihalcea, Rada},"
+        "   title = {SemEval-2007 task 14: affective text},"
+        "   year = {2007},"
+        "   publisher = {Association for Computational Linguistics},"
+        "   address = {USA},"
+        "   abstract = {The 'Affective Text' task focuses on the classification of emotions and valence (positive/negative polarity) in news headlines, and is meant as an exploration of the connection between emotions and lexical semantics. In this paper, we describe the data set used in the evaluation and the results obtained by the participating systems.},"
+        "   booktitle = {Proceedings of the 4th International Workshop on Semantic Evaluations},"
+        "   pages = {70–74},"
+        "   numpages = {5},"
+        "   location = {Prague, Czech Republic},"
+        "   series = {SemEval '07}"
+        "   }"
+    ),
+    homepage="https://web.eecs.umich.edu/~mihalcea/downloads.html#affective",
+    license="",
+    emotions=[
+        "anger",
+        "disgust",
+        "fear",
+        "joy",
+        "sadness",
+        "surprise",
+        "valence",
+    ],
+    multilabel=True,
+    continuous=True,
+    system="Continuous ratings for different emotion classes",
+    domain="News headlines",
+)
 
 
 @dataclasses.dataclass
@@ -49,6 +84,9 @@ class AffectiveTextProcessor(DatasetBase):
     splits: typing.List[str] = dataclasses.field(
         default_factory=lambda: ["trial", "test"]
     )
+
+    def get_metadata(self) -> DatasetMetadata:
+        return AFFECTIVE_TEXT_METADATA
 
     def download_files(
         self, downloads_dir: pathlib.Path
@@ -179,24 +217,11 @@ class AffectiveTextProcessor(DatasetBase):
         hf_dataset = datasets.Dataset.from_list(
             mapping=records,
             info=datasets.DatasetInfo(
-                description="The SeMEval-2007 Task 14: Affective Text dataset, as processed by 'emotion_datasets'. Affective Text is a data set consisting of 1000 test headlines and 200 development headlines, each of them annotated with the six Eckman emotions and the polarity orientation.",
-                citation=(
-                    "@inproceedings{10.5555/1621474.1621487,"
-                    "   author = {Strapparava, Carlo and Mihalcea, Rada},"
-                    "   title = {SemEval-2007 task 14: affective text},"
-                    "   year = {2007},"
-                    "   publisher = {Association for Computational Linguistics},"
-                    "   address = {USA},"
-                    "   abstract = {The 'Affective Text' task focuses on the classification of emotions and valence (positive/negative polarity) in news headlines, and is meant as an exploration of the connection between emotions and lexical semantics. In this paper, we describe the data set used in the evaluation and the results obtained by the participating systems.},"
-                    "   booktitle = {Proceedings of the 4th International Workshop on Semantic Evaluations},"
-                    "   pages = {70–74},"
-                    "   numpages = {5},"
-                    "   location = {Prague, Czech Republic},"
-                    "   series = {SemEval '07}"
-                    "   }"
-                ),
-                homepage="https://web.eecs.umich.edu/~mihalcea/downloads.html#affective",
-                license="",
+                dataset_name=self.name,
+                description=self.get_metadata().description,
+                citation=self.get_metadata().citation,
+                homepage=self.get_metadata().homepage,
+                license=self.get_metadata().license,
             ),
         )
 

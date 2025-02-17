@@ -16,11 +16,38 @@ from emotion_datasets.dataset_processing.base import (
     DownloadResult,
     ProcessingResult,
     DownloadError,
+    DatasetMetadata,
 )
 from emotion_datasets.utils import download, get_file_stats, update_manifest
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
+
+CROWDFLOWER_METADATA = DatasetMetadata(
+    description="The Emotion in Text dataset by CrowdFlower, as processed using 'emotion_datasets'. A dataset of tweets labelled into 1 of 13 different emotion classes. The original dataset is no longer publicly available, so this was taken from a secondary source.",
+    citation="",
+    homepage="",
+    license="",
+    emotions=[
+        "neutral",
+        "empty",
+        "worry",
+        "happiness",
+        "sadness",
+        "love",
+        "surprise",
+        "fun",
+        "relief",
+        "hate",
+        "enthusiasm",
+        "boredom",
+        "anger",
+    ],
+    multilabel=False,
+    continuous=False,
+    system="Hashtags in twitter posts",
+    domain="Twitter posts",
+)
 
 
 @dataclasses.dataclass
@@ -45,6 +72,9 @@ class CrowdFlowerProcessor(DatasetBase):
     name: str = "CrowdFlower"
 
     url: str = "https://raw.githubusercontent.com/tlkh/text-emotion-classification/refs/heads/master/dataset/original/text_emotion.csv"
+
+    def get_metadata(self) -> DatasetMetadata:
+        return CROWDFLOWER_METADATA
 
     def download_files(self, downloads_dir: pathlib.Path) -> CrowdFlowerDownloadResult:
         downloads_subdir = downloads_dir / self.name
@@ -130,7 +160,11 @@ class CrowdFlowerProcessor(DatasetBase):
 
             logger.info("Processing - Ingested handoff file using HuggingFace")
 
-            hf_dataset.info.description = "The Emotion in Text dataset by CrowdFlower, as processed using 'emotion_datasets'. A dataset of tweets labelled into 1 of 13 different emotion classes. The original dataset is no longer publicly available, so this was taken from a secondary source."
+            hf_dataset.info.dataset_name = self.name
+            hf_dataset.info.description = self.get_metadata().description
+            hf_dataset.info.citation = self.get_metadata().citation
+            hf_dataset.info.homepage = self.get_metadata().homepage
+            hf_dataset.info.license = self.get_metadata().license
 
             logger.info(f"Processing - Saving HuggingFace dataset: {data_subdir}")
 

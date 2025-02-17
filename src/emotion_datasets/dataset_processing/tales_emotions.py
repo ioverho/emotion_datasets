@@ -15,11 +15,50 @@ from emotion_datasets.dataset_processing.base import (
     DownloadResult,
     ProcessingResult,
     DownloadError,
+    DatasetMetadata,
 )
 from emotion_datasets.utils import download, get_file_stats, update_manifest
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
+
+TALES_EMOTION_METADATA = DatasetMetadata(
+    description="The tales-emotions dataset, as processed by 'emotion_datasets'. Fairy tales annotated with sentence level emotions, by Cecilia Ovesdotter Alm.",
+    citation=(
+        "@inproceedings{alm-etal-2005-emotions,"
+        "    title = 'Emotions from Text: Machine Learning for Text-based Emotion Prediction',"
+        "    author = 'Alm, Cecilia Ovesdotter  and"
+        "      Roth, Dan  and"
+        "      Sproat, Richard',"
+        "    editor = 'Mooney, Raymond  and"
+        "      Brew, Chris  and"
+        "      Chien, Lee-Feng  and"
+        "      Kirchhoff, Katrin',"
+        "    booktitle = 'Proceedings of Human Language Technology Conference and Conference on Empirical Methods in Natural Language Processing',"
+        "    month = oct,"
+        "    year = '2005',"
+        "    address = 'Vancouver, British Columbia, Canada',"
+        "    publisher = 'Association for Computational Linguistics',"
+        "    url = 'https://aclanthology.org/H05-1073/',"
+        "    pages = '579--586'"
+        "}"
+    ),
+    homepage="http://people.rc.rit.edu/~coagla/affectdata/index.html",
+    license="GPLv3",
+    emotions=[
+        "angry",
+        "disgusted",
+        "fearful",
+        "happy",
+        "sad",
+        "positively surprised",
+        "negatively surprised",
+    ],
+    multilabel=False,
+    continuous=False,
+    system="Ekman basic emotions",
+    domain="Fairy tales",
+)
 
 
 @dataclasses.dataclass
@@ -72,6 +111,9 @@ class TalesEmotionsProcessor(DatasetBase):
             "-": "Pos.Surprised",
         }
     )
+
+    def get_metadata(self) -> DatasetMetadata:
+        return TALES_EMOTION_METADATA
 
     def download_files(
         self, downloads_dir: pathlib.Path
@@ -181,28 +223,11 @@ class TalesEmotionsProcessor(DatasetBase):
         hf_dataset = datasets.Dataset.from_list(
             mapping=records,
             info=datasets.DatasetInfo(
-                description="The tales-emotions dataset, as processed by 'emotion_datasets'. Fairy tales annotated with sentence level emotions, by Cecilia Ovesdotter Alm.",
-                citation=(
-                    "@inproceedings{alm-etal-2005-emotions,"
-                    "    title = 'Emotions from Text: Machine Learning for Text-based Emotion Prediction',"
-                    "    author = 'Alm, Cecilia Ovesdotter  and"
-                    "      Roth, Dan  and"
-                    "      Sproat, Richard',"
-                    "    editor = 'Mooney, Raymond  and"
-                    "      Brew, Chris  and"
-                    "      Chien, Lee-Feng  and"
-                    "      Kirchhoff, Katrin',"
-                    "    booktitle = 'Proceedings of Human Language Technology Conference and Conference on Empirical Methods in Natural Language Processing',"
-                    "    month = oct,"
-                    "    year = '2005',"
-                    "    address = 'Vancouver, British Columbia, Canada',"
-                    "    publisher = 'Association for Computational Linguistics',"
-                    "    url = 'https://aclanthology.org/H05-1073/',"
-                    "    pages = '579--586'"
-                    "}"
-                ),
-                homepage="http://people.rc.rit.edu/~coagla/affectdata/index.html",
-                license="GPLv3",
+                dataset_name=self.name,
+                description=self.get_metadata().description,
+                citation=self.get_metadata().citation,
+                homepage=self.get_metadata().homepage,
+                license=self.get_metadata().license,
             ),
         )
 

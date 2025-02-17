@@ -12,5 +12,6 @@ from .go_emotions import GoEmotionsProcessor  # noqa: F401
 from .sentimental_liar import SentimentalLIARProcessor  # noqa: F401
 from .ssec import SSECProcessor  # noqa: F401
 from .tales_emotions import TalesEmotionsProcessor  # noqa: F401
+from .xed import XEDProcessor  # noqa: F401
 
 __all__ = ["get_dataset"]

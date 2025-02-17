@@ -5,19 +5,19 @@ An effort to automate the downloading and processing of textual datasets for emo
 
 Currently implemented datasets:
 
-| Name                                                                                                 | Description                                                                                           | Size | Labelling System                                                       |
-| ---------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | ---- | ---------------------------------------------------------------------- |
-| [Affective Text](https://web.eecs.umich.edu/~mihalcea/downloads.html#affective)                      | News headlines with emotion labels, as used in SemEval 2007 Task 14                                   | 1.3k | Six continuous Ekman emotions and valence                              |
-| [CARER](https://github.com/dair-ai/emotion_dataset)                                                  | Self-report tweets, using only the authors' 'split' dataset configuration                             | 20k  | Six emotion classes, based on Ekman's basic emotions                   |
-| Crowd Flower                                                                                         | Tweets annotated for different emotion classes. The original dataset is no longer publicly available  | 40k  | Thirteen different emotion classes                                     |
-| [EmoBank](https://github.com/JULIELab/EmoBank/tree/master)                                           | Texts from various sources, annotated using VAD system. Contains the 'Affective Text' corpus as well. | 10k  | Continuous valence, arousal and dominance scores                       |
-| [EmoInt](http://saifmohammad.com/WebPages/EmotionIntensity-SharedTask.html)                          | Tweets annotated for emotion and emotion intensity. Each tweet is annotated for at least 1 emotion.   | 6.9k | Four continuous emotion classes, most of which will be `NULL`          |
-| [Facebook Valence Arousal](https://github.com/wwbp/additional_data_sets/tree/master/valence_arousal) | Facebook posts annotated for valence and arousal by two experts                                       | 2.9k | Continuous valence and arousal scores                                  |
-| [GoEmotions](https://github.com/google-research/google-research/tree/master/goemotions)              | Reddit comments with manual human annotations                                                         | 58k  | Hierarchical emotion system with 28 distinct fine-grained emotions     |
-| [Sentimental Liar](https://github.com/UNHSAILLab/SentimentalLIAR)                                    | A modification of the LIAR dataset, with automated labels for sentiment and some dominant emotions    | 13k  | Five emotion classes as continuous scores along with a sentiment score |
-| [SSEC](https://www.romanklinger.de/ssec/)                                                            | The dataset used for SemEval 2016 Task 6, but with emotion labels                                     | 4.8k | Eight emotion classes                                                  |
-| [Tales Emotions](http://people.rc.rit.edu/~coagla/affectdata/index.html)                             | Fairy tales with sentence-level annotations from two annotators for emotion and mood                  | 15k  | Eight emotion classes, based on Ekman's basic emotions                 |
-|                                                                                                      |                                                                                                       |      |                                                                        |
+| Name                                                                                         | System                                                           |   Labels | Multilabel   | Continuous   | Size   | Domain                                            |
+|----------------------------------------------------------------------------------------------|------------------------------------------------------------------|----------|--------------|--------------|--------|---------------------------------------------------|
+| [AffectiveText](https://web.eecs.umich.edu/~mihalcea/downloads.html#affective)               | Continuous ratings for different emotion classes                 |        7 | ✓            | ✓            | 1.3k   | News headlines                                    |
+| [CARER](https://github.com/dair-ai/emotion_dataset)                                          | Hashtags in Twitter posts corresponding to Ekman's core emotions |        0 |              |              | 20k    | Twitter posts                                     |
+| CrowdFlower                                                                                  | Hashtags in twitter posts                                        |       13 |              |              | 40k    | Twitter posts                                     |
+| [EmoBank](https://github.com/JULIELab/EmoBank/tree/master)                                   | Valence-Arousal-Dominance                                        |        3 |              | ✓            | 10k    | Varied                                            |
+| [EmoInt](http://saifmohammad.com/WebPages/EmotionIntensity-SharedTask.html)                  | Subset of common emotions anotated using best-worst scaling      |        4 | ✓            | ✓            | 6.9k   | Tweets                                            |
+| [FBValenceArousal](https://github.com/wwbp/additional_data_sets/tree/master/valence_arousal) | Valence Arousal                                                  |        2 |              | ✓            | 2.9k   | Facebook posts                                    |
+| [GoEmotions](https://github.com/google-research/google-research/tree/master/goemotions)      | Custom hierarchical emotion system                               |       28 |              |              | 58k    | Reddit posts                                      |
+| [SentimentalLIAR](https://github.com/UNHSAILLab/SentimentalLIAR)                             | Automated emotion annotation using Google and IBM NLP APIs       |        6 | ✓            | ✓            | 13k    | Short snippets from politicians and famous people |
+| [SSEC](https://www.romanklinger.de/ssec/)                                                    | A mixture between Plutchik and Ekman                             |        8 | ✓            |              | 4.8k   | Twitter posts                                     |
+| [TalesEmotions](http://people.rc.rit.edu/~coagla/affectdata/index.html)                      | Ekman basic emotions                                             |        7 |              |              | 15k    | Fairy tales                                       |
+| [XED](https://github.com/Helsinki-NLP/XED/tree/master)                                       | Plutchik core emotions                                           |        9 | ✓            | ✓            | 27k    | Subtitles                                         |
 
 ## Installation
 
@@ -79,10 +79,11 @@ All datasets are stored as HuggingFace datasets compatible directories. This imp
 <details>
 <summary>WIP Datasets</summary>
 
-| Name                                                                                         | Description            |
-| -------------------------------------------------------------------------------------------- | ---------------------- |
-| [SemEval-2018 Task 1: Affect in Tweets](https://competitions.codalab.org/competitions/17751) | Continuation of EmoInt |
-|                                                                                              |                        |
+| Name                                                                                         | Description                       |
+| -------------------------------------------------------------------------------------------- | --------------------------------- |
+| [SemEval-2018 Task 1: Affect in Tweets](https://competitions.codalab.org/competitions/17751) | Continuation of EmoInt            |
+| [Electoral Tweets](http://saifmohammad.com/WebPages/SentimentEmotionLabeledData.html)        | Yet another Saif Mohammad dataset |
+|                                                                                              |                                   |
 
 </details>
 

@@ -52,7 +52,7 @@ class Config:
     )  # type: ignore
 
     overwrite: bool = False
-    print_config: bool = True
+    print_config: bool = False
     debug: bool = False
 
     hydra: typing.Any = dataclasses.field(
@@ -92,6 +92,12 @@ def process_dataset(config: Config) -> None:
     # ==========================================================================
     # Setup
     # ==========================================================================
+    # Print the dataset name
+    dataset_title = ("  " + config.dataset.name + "  ").center(80, "=")
+    title_str = f"\n{'=' * 80}\n{dataset_title}\n{'=' * 80}"
+
+    logger.info(title_str)
+
     # Print the config for the user
     if config.print_config or config.debug:
         config_str = f"\n{'=' * 80}\nPARSED CONFIG:\n\n{omegaconf.OmegaConf.to_yaml(config, resolve=True)}\n{'=' * 80}"

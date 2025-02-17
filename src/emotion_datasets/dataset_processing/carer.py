@@ -12,11 +12,42 @@ from emotion_datasets.dataset_processing.base import (
     DatasetBase,
     DownloadResult,
     ProcessingResult,
+    DatasetMetadata,
 )
 from emotion_datasets.utils import get_file_stats, update_manifest
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
+
+
+CARER_METADATA = DatasetMetadata(
+    description="The CARER dataset, as processed using 'emotion_datasets'. CARER is a dataset of English Twitter messages with six basic emotions: anger, fear, joy, love, sadness, and surprise.",
+    citation=(
+        "@inproceedings{saravia-etal-2018-carer,"
+        "title = '{CARER}: Contextualized Affect Representations for Emotion Recognition',"
+        "author = 'Saravia, Elvis  and"
+        "Liu, Hsien-Chi Toby  and"
+        "Huang, Yen-Hao  and"
+        "Wu, Junlin  and"
+        "Chen, Yi-Shin',"
+        "booktitle = 'Proceedings of the 2018 Conference on Empirical Methods in Natural Language Processing',"
+        "month = oct # '-' # nov,"
+        "year = '2018',"
+        "address = 'Brussels, Belgium',"
+        "publisher = 'Association for Computational Linguistics',"
+        "url = 'https://www.aclweb.org/anthology/D18-1404',"
+        "doi = '10.18653/v1/D18-1404',"
+        "pages = '3687--3697',"
+        "}"
+    ),
+    homepage="https://github.com/dair-ai/emotion_dataset",
+    license="The dataset should be used for educational and research purposes only.",
+    emotions=[],
+    multilabel=False,
+    continuous=False,
+    system="Hashtags in Twitter posts corresponding to Ekman's core emotions",
+    domain="Twitter posts",
+)
 
 
 @dataclasses.dataclass
@@ -39,7 +70,10 @@ class CARERProcessor(DatasetBase):
     hf_config_name: str = "split"
     hf_splits: str = "train+validation+test"
 
-    def download_files(self, downloads_dir: pathlib.Path):
+    def get_metadata(self) -> DatasetMetadata:
+        return CARER_METADATA
+
+    def download_files(self, downloads_dir: pathlib.Path) -> CARERDownloadResult:
         downloads_subdir = downloads_dir / self.name
         os.makedirs(name=downloads_subdir, exist_ok=True)
 
@@ -85,32 +119,11 @@ class CARERProcessor(DatasetBase):
 
         logger.info(f"Processing - Saving HuggingFace dataset: {data_subdir}")
 
-        hf_dataset.info.description = "The CARER dataset, as processed using 'emotion_datasets'. CARER is a dataset of English Twitter messages with six basic emotions: anger, fear, joy, love, sadness, and surprise."
-
-        hf_dataset.info.citation = """@inproceedings{saravia-etal-2018-carer,
-            title = "{CARER}: Contextualized Affect Representations for Emotion Recognition",
-            author = "Saravia, Elvis  and
-            Liu, Hsien-Chi Toby  and
-            Huang, Yen-Hao  and
-            Wu, Junlin  and
-            Chen, Yi-Shin",
-            booktitle = "Proceedings of the 2018 Conference on Empirical Methods in Natural Language Processing",
-            month = oct # "-" # nov,
-            year = "2018",
-            address = "Brussels, Belgium",
-            publisher = "Association for Computational Linguistics",
-            url = "https://www.aclweb.org/anthology/D18-1404",
-            doi = "10.18653/v1/D18-1404",
-            pages = "3687--3697",
-            abstract = "Emotions are expressed in nuanced ways, which varies by collective or individual experiences, knowledge, and beliefs. Therefore, to understand emotion, as conveyed through text, a robust mechanism capable of capturing and modeling different linguistic nuances and phenomena is needed. We propose a semi-supervised, graph-based algorithm to produce rich structural descriptors which serve as the building blocks for constructing contextualized affect representations from text. The pattern-based representations are further enriched with word embeddings and evaluated through several emotion recognition tasks. Our experimental results demonstrate that the proposed method outperforms state-of-the-art techniques on emotion recognition tasks.",
-        }
-        """
-
-        hf_dataset.info.homepage = "https://github.com/dair-ai/emotion_dataset"
-
-        hf_dataset.info.license = (
-            "The dataset should be used for educational and research purposes only."
-        )
+        hf_dataset.info.dataset_name = self.name
+        hf_dataset.info.description = self.get_metadata().description
+        hf_dataset.info.citation = self.get_metadata().citation
+        hf_dataset.info.homepage = self.get_metadata().homepage
+        hf_dataset.info.license = self.get_metadata().license
 
         hf_dataset.save_to_disk(
             dataset_path=str(data_subdir),

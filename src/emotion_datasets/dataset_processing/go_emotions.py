@@ -15,11 +15,61 @@ from emotion_datasets.dataset_processing.base import (
     DownloadResult,
     ProcessingResult,
     DownloadError,
+    DatasetMetadata,
 )
 from emotion_datasets.utils import download, get_file_stats, update_manifest
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
+
+
+GOEMOTIONS_METADATA = DatasetMetadata(
+    description="The GoEmotions dataset, as processed using 'emotion_datasets'. GoEmotions is a corpus of 58k carefully curated comments extracted from Reddit, with human annotations to 27 emotion categories or Neutral.",
+    citation=(
+        "@inproceedings{demszky2020goemotions,"
+        "   author = {Demszky, Dorottya and Movshovitz-Attias, Dana and Ko, Jeongwoo and Cowen, Alan and Nemade, Gaurav and Ravi, Sujith},"
+        "   booktitle = {58th Annual Meeting of the Association for Computational Linguistics (ACL)},"
+        "   title = {{GoEmotions: A Dataset of Fine-Grained Emotions}},"
+        "   year = {2020}"
+        "}"
+    ),
+    homepage="https://github.com/google-research/google-research/tree/master/goemotions",
+    license="",
+    emotions=[
+        "admiration",
+        "amusement",
+        "anger",
+        "annoyance",
+        "approval",
+        "caring",
+        "confusion",
+        "curiosity",
+        "desire",
+        "disappointment",
+        "disapproval",
+        "disgust",
+        "embarrassment",
+        "excitement",
+        "fear",
+        "gratitude",
+        "grief",
+        "joy",
+        "love",
+        "nervousness",
+        "optimism",
+        "pride",
+        "realization",
+        "relief",
+        "remorse",
+        "sadness",
+        "surprise",
+        "neutral",
+    ],
+    multilabel=False,
+    continuous=False,
+    system="Custom hierarchical emotion system",
+    domain="Reddit posts",
+)
 
 
 @dataclasses.dataclass
@@ -56,6 +106,9 @@ class GoEmotionsProcessor(DatasetBase):
         ]
     )
 
+    def get_metadata(self) -> DatasetMetadata:
+        return GOEMOTIONS_METADATA
+
     def download_files(self, downloads_dir: pathlib.Path) -> GoEmotionsDownloadResult:
         os.makedirs(downloads_dir / self.name, exist_ok=True)
 
@@ -65,7 +118,7 @@ class GoEmotionsProcessor(DatasetBase):
             metadata_file_name = pathlib.Path(metadata_file).name
 
             logger.info(
-                f"Download - Downloading metadata file {i+1}/{len(self.metadata_files)}: {metadata_file_name}"
+                f"Download - Downloading metadata file {i + 1}/{len(self.metadata_files)}: {metadata_file_name}"
             )
             logger.info(f"Download - Source: {metadata_file}")
 
@@ -89,7 +142,7 @@ class GoEmotionsProcessor(DatasetBase):
             data_file_name = pathlib.Path(data_file).name
 
             logger.info(
-                f"Download - Downloading data file {i+1}/{len(self.files)}: {data_file}"
+                f"Download - Downloading data file {i + 1}/{len(self.files)}: {data_file}"
             )
             logger.info(f"Download - Source: {data_file}")
 
@@ -214,18 +267,11 @@ class GoEmotionsProcessor(DatasetBase):
 
             logger.info("Processing - Ingested handoff file using HuggingFace")
 
-            hf_dataset.info.description = "The GoEmotions dataset, as processed using 'emotion_datasets'. GoEmotions is a corpus of 58k carefully curated comments extracted from Reddit, with human annotations to 27 emotion categories or Neutral."
-
-            hf_dataset.info.citation = (
-                "@inproceedings{demszky2020goemotions,"
-                "   author = {Demszky, Dorottya and Movshovitz-Attias, Dana and Ko, Jeongwoo and Cowen, Alan and Nemade, Gaurav and Ravi, Sujith},"
-                "   booktitle = {58th Annual Meeting of the Association for Computational Linguistics (ACL)},"
-                "   title = {{GoEmotions: A Dataset of Fine-Grained Emotions}},"
-                "   year = {2020}"
-                "}"
-            )
-
-            hf_dataset.info.homepage = "https://github.com/google-research/google-research/tree/master/goemotions"
+            hf_dataset.info.dataset_name = self.name
+            hf_dataset.info.description = self.get_metadata().description
+            hf_dataset.info.citation = self.get_metadata().citation
+            hf_dataset.info.homepage = self.get_metadata().homepage
+            hf_dataset.info.license = self.get_metadata().license
 
             logger.info(f"Processing - Saving HuggingFace dataset: {data_subdir}")
 

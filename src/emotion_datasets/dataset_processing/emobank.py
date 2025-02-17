@@ -15,11 +15,35 @@ from emotion_datasets.dataset_processing.base import (
     DownloadResult,
     ProcessingResult,
     DownloadError,
+    DatasetMetadata,
 )
 from emotion_datasets.utils import download, get_file_stats, update_manifest
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
+
+EMOBANK_METADATA = DatasetMetadata(
+    description="The EmoBank dataset, as processed using 'emotion_datasets'. EmoBank is a large-scale text corpus manually annotated with emotion according to the psychological Valence-Arousal-Dominance scheme. It was build at JULIE Lab, Jena University and is described in detail in papers from EACL 2017 and LAW 2017.",
+    citation=(
+        "@article{buechel2022emobank,"
+        "   title={Emobank: Studying the impact of annotation perspective and representation format on dimensional emotion analysis},"
+        "   author={Buechel, Sven and Hahn, Udo},"
+        "   journal={arXiv preprint arXiv:2205.01996},"
+        "   year={2022}"
+        "}"
+    ),
+    homepage="https://github.com/JULIELab/EmoBank/tree/master",
+    license="CC-BY-SA 4.0",
+    emotions=[
+        "Valence",
+        "Arousal",
+        "Dominance",
+    ],
+    multilabel=False,
+    continuous=True,
+    system="Valence-Arousal-Dominance",
+    domain="Varied",
+)
 
 
 @dataclasses.dataclass
@@ -42,6 +66,9 @@ class EmoBankProcessor(DatasetBase):
 
     data_file: str = "https://raw.githubusercontent.com/JULIELab/EmoBank/refs/heads/master/corpus/emobank.csv"
     metadata_file: str = "https://raw.githubusercontent.com/JULIELab/EmoBank/refs/heads/master/corpus/meta.tsv"
+
+    def get_metadata(self) -> DatasetMetadata:
+        return EMOBANK_METADATA
 
     def download_files(self, downloads_dir: pathlib.Path) -> EmoBankDownloadResult:
         os.makedirs(downloads_dir / self.name, exist_ok=True)
@@ -164,20 +191,11 @@ class EmoBankProcessor(DatasetBase):
 
             logger.info("Processing - Ingested handoff file using HuggingFace")
 
-            hf_dataset.info.description = "The EmoBank dataset, as processed using 'emotion_datasets'. EmoBank is a large-scale text corpus manually annotated with emotion according to the psychological Valence-Arousal-Dominance scheme. It was build at JULIE Lab, Jena University and is described in detail in papers from EACL 2017 and LAW 2017."
-
-            hf_dataset.info.citation = (
-                "@article{buechel2022emobank,"
-                "   title={Emobank: Studying the impact of annotation perspective and representation format on dimensional emotion analysis},"
-                "   author={Buechel, Sven and Hahn, Udo},"
-                "   journal={arXiv preprint arXiv:2205.01996},"
-                "   year={2022}"
-                "}"
-            )
-
-            hf_dataset.info.homepage = "https://github.com/JULIELab/EmoBank/tree/master"
-
-            hf_dataset.info.license = "CC-BY-SA 4.0"
+            hf_dataset.info.dataset_name = self.name
+            hf_dataset.info.description = self.get_metadata().description
+            hf_dataset.info.citation = self.get_metadata().citation
+            hf_dataset.info.homepage = self.get_metadata().homepage
+            hf_dataset.info.license = self.get_metadata().license
 
             logger.info(f"Processing - Saving HuggingFace dataset: {data_subdir}")
 

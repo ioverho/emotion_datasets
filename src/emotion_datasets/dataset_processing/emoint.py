@@ -15,11 +15,37 @@ from emotion_datasets.dataset_processing.base import (
     DownloadResult,
     ProcessingResult,
     DownloadError,
+    DatasetMetadata,
 )
 from emotion_datasets.utils import download, get_file_stats, update_manifest
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
+
+
+EMOINT_METADATA = DatasetMetadata(
+    description="The WASSA-2017 Shared Task on Emotion Intensity (EmoInt) dataset, as processed using 'emotion_datasets'. Unlike other emotion datasets, texts in this dataset are annotated not just for the dominant emotion, but for their intensity as well.",
+    citation=(
+        "@article{mohammad2017wassa,"
+        "  title={WASSA-2017 shared task on emotion intensity},"
+        "  author={Mohammad, Saif M and Bravo-Marquez, Felipe},"
+        "  journal={arXiv preprint arXiv:1708.03700},"
+        "  year={2017}"
+        "}"
+    ),
+    homepage="http://saifmohammad.com/WebPages/EmotionIntensity-SharedTask.html",
+    license="",
+    emotions=[
+        "anger",
+        "fear",
+        "joy",
+        "sadness",
+    ],
+    multilabel=True,
+    continuous=True,
+    system="Subset of common emotions anotated using best-worst scaling",
+    domain="Twitter posts",
+)
 
 
 @dataclasses.dataclass
@@ -56,6 +82,9 @@ class EmoIntProcessor(DatasetBase):
             "http://saifmohammad.com/WebDocs/EmoInt%20Test%20Gold%20Data/sadness-ratings-0to1.test.gold.txt",
         ]
     )
+
+    def get_metadata(self) -> DatasetMetadata:
+        return EMOINT_METADATA
 
     def download_files(self, downloads_dir: pathlib.Path) -> EmoIntDownloadResult:
         downloads_subdir = downloads_dir / self.name
@@ -193,22 +222,11 @@ class EmoIntProcessor(DatasetBase):
                 keep_in_memory=False,
             )  # type: ignore
 
-            hf_dataset.info.description = "The WASSA-2017 Shared Task on Emotion Intensity (EmoInt) dataset, as processed using 'emotion_datasets'. Unlike other emotion datasets, texts in this dataset are annotated not just for the dominant emotion, but for their intensity as well."
-
-            hf_dataset.info.citation = (
-                "@article{mohammad2017wassa,"
-                "  title={WASSA-2017 shared task on emotion intensity},"
-                "  author={Mohammad, Saif M and Bravo-Marquez, Felipe},"
-                "  journal={arXiv preprint arXiv:1708.03700},"
-                "  year={2017}"
-                "}"
-            )
-
-            hf_dataset.info.homepage = (
-                "http://saifmohammad.com/WebPages/EmotionIntensity-SharedTask.html"
-            )
-
-            hf_dataset.info.license = ""
+            hf_dataset.info.dataset_name = self.name
+            hf_dataset.info.description = self.get_metadata().description
+            hf_dataset.info.citation = self.get_metadata().citation
+            hf_dataset.info.homepage = self.get_metadata().homepage
+            hf_dataset.info.license = self.get_metadata().license
 
             logger.info(f"Processing - Saving HuggingFace dataset: {data_subdir}")
 
