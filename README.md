@@ -59,7 +59,7 @@ Running the script for any dataset should output a directory with the following 
 ```
 /data/
     ├── ${DATASET}
-    │   the processed dataset along with any metadata files
+    │   processed data along with metadata files
     └── manifest.json
         a summary of which files can be found where
 /downloads/
@@ -83,16 +83,15 @@ All datasets are stored as HuggingFace datasets compatible directories. This imp
 | -------------------------------------------------------------------------------------------- | --------------------------------- |
 | [SemEval-2018 Task 1: Affect in Tweets](https://competitions.codalab.org/competitions/17751) | Continuation of EmoInt            |
 | [Electoral Tweets](http://saifmohammad.com/WebPages/SentimentEmotionLabeledData.html)        | Yet another Saif Mohammad dataset |
-|                                                                                              |                                   |
 
 </details>
 
 <details>
 <summary>Excluded Datasets</summary>
 
-| Name                                                                                   | Description | Exclusion Reason                     |
-| -------------------------------------------------------------------------------------- | ----------- | ------------------------------------ |
-| [SemEval-2019 Task 3: EmoContext](https://competitions.codalab.org/competitions/19790) |             | Emotion spread out over long context |
-|                                                                                        |             |                                      |
+| Name                                                                                     | Description | Exclusion Reason                                |
+| ---------------------------------------------------------------------------------------- | ----------- | ----------------------------------------------- |
+| [SemEval-2019 Task 3: EmoContext](https://competitions.codalab.org/competitions/19790)   |             | Emotion spread out over long context            |
+| [Grounded Emotion](https://web.eecs.umich.edu/~mihalcea/downloads.html#GroundedEmotions) |             | SoTA classifiers cannot beat random performance |
 
 </details>
