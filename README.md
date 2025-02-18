@@ -10,6 +10,7 @@ Currently implemented datasets:
 | [AffectiveText](https://web.eecs.umich.edu/~mihalcea/downloads.html#affective)               | Continuous ratings for different emotion classes                 | 7      | ✓          | ✓          | 1.3k | News headlines                                    |
 | [CARER](https://github.com/dair-ai/emotion_dataset)                                          | Hashtags in Twitter posts corresponding to Ekman's core emotions | 0      |            |            | 20k  | Twitter posts                                     |
 | CrowdFlower                                                                                  | Hashtags in twitter posts                                        | 13     |            |            | 40k  | Twitter posts                                     |
+| [ElectoralTweets](http://saifmohammad.com/WebPages/SentimentEmotionLabeledData.html)         | Discrete categories with some aggregated emotions                | 21     |            |            | 3.8k | Twitter posts                                     |
 | [EmoBank](https://github.com/JULIELab/EmoBank/tree/master)                                   | Valence-Arousal-Dominance                                        | 3      |            | ✓          | 10k  | Varied                                            |
 | [EmoInt](http://saifmohammad.com/WebPages/EmotionIntensity-SharedTask.html)                  | Subset of common emotions anotated using best-worst scaling      | 4      | ✓          | ✓          | 6.9k | Tweets                                            |
 | [FBValenceArousal](https://github.com/wwbp/additional_data_sets/tree/master/valence_arousal) | Valence Arousal                                                  | 2      |            | ✓          | 2.9k | Facebook posts                                    |
@@ -34,9 +35,21 @@ uv sync
 
 ## Usage
 
-### Processing All Datasets Using Default Parameters
+<!-- ### Processing All Datasets Using Default Parameters
 
-To simply use the default parameters, simply run the `get_all_datasets.sh` script.
+To simply use the default parameters, simply run the `get_all_datasets.sh` script. -->
+
+### Accessing Dataset Metadata
+
+To access a dataset's metadata in a Python script, assuming you have installed this library, you can run:
+```python
+>>> dataset = get_dataset(${DATASET})
+>>> dataset.metadata
+```
+
+Here you should replace `${DATASET}` with a dataset name. See the table above for implemented datasets. The name should not contain any spaces.
+
+This should return a `DatasetMetadata` object that contains a description, citation and licensing information, a list of all emotion columns, and metadata on how the emotion annotations were conducted.
 
 ### Manually Processing a Dataset
 
@@ -79,19 +92,25 @@ All datasets are stored as HuggingFace datasets compatible directories. This imp
 <details>
 <summary>WIP Datasets</summary>
 
-| Name                                                                                         | Description                       |
-| -------------------------------------------------------------------------------------------- | --------------------------------- |
-| [SemEval-2018 Task 1: Affect in Tweets](https://competitions.codalab.org/competitions/17751) | Continuation of EmoInt            |
-| [Electoral Tweets](http://saifmohammad.com/WebPages/SentimentEmotionLabeledData.html)        | Yet another Saif Mohammad dataset |
+| Name                                                                                         | Description                                   |
+| -------------------------------------------------------------------------------------------- | --------------------------------------------- |
+| [SemEval-2018 Task 1: Affect in Tweets](https://competitions.codalab.org/competitions/17751) | Continuation of EmoInt                        |
+| [VENT](https://zenodo.org/records/2537982)                                                   | Huge tweets dataset with many emotions        |
+| [Ren20k](https://dcs.uoc.ac.in/cida/resources/ren-20k.html)                                  | Many news articles with 5 continuous emotions |
+|                                                                                              |                                               |
+
+### Notes
+
+Both CARER and Crowdflower will need to be edited to match the same dataset schema
 
 </details>
 
 <details>
 <summary>Excluded Datasets</summary>
 
-| Name                                                                                     | Description | Exclusion Reason                                |
-| ---------------------------------------------------------------------------------------- | ----------- | ----------------------------------------------- |
-| [SemEval-2019 Task 3: EmoContext](https://competitions.codalab.org/competitions/19790)   |             | Emotion spread out over long context            |
-| [Grounded Emotion](https://web.eecs.umich.edu/~mihalcea/downloads.html#GroundedEmotions) |             | SoTA classifiers cannot beat random performance |
+| Name                                                                                     | Exclusion Reason                                |
+| ---------------------------------------------------------------------------------------- | ----------------------------------------------- |
+| [SemEval-2019 Task 3: EmoContext](https://competitions.codalab.org/competitions/19790)   | Emotion spread out over long context            |
+| [Grounded Emotion](https://web.eecs.umich.edu/~mihalcea/downloads.html#GroundedEmotions) | SoTA classifiers cannot beat random performance |
 
 </details>

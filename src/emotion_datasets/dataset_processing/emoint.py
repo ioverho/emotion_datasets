@@ -83,8 +83,7 @@ class EmoIntProcessor(DatasetBase):
         ]
     )
 
-    def get_metadata(self) -> DatasetMetadata:
-        return EMOINT_METADATA
+    metadata: typing.ClassVar[DatasetMetadata] = EMOINT_METADATA
 
     def download_files(self, downloads_dir: pathlib.Path) -> EmoIntDownloadResult:
         downloads_subdir = downloads_dir / self.name
@@ -223,10 +222,10 @@ class EmoIntProcessor(DatasetBase):
             )  # type: ignore
 
             hf_dataset.info.dataset_name = self.name
-            hf_dataset.info.description = self.get_metadata().description
-            hf_dataset.info.citation = self.get_metadata().citation
-            hf_dataset.info.homepage = self.get_metadata().homepage
-            hf_dataset.info.license = self.get_metadata().license
+            hf_dataset.info.description = self.metadata.description
+            hf_dataset.info.citation = self.metadata.citation
+            hf_dataset.info.homepage = self.metadata.homepage
+            hf_dataset.info.license = self.metadata.license
 
             logger.info(f"Processing - Saving HuggingFace dataset: {data_subdir}")
 

@@ -112,8 +112,7 @@ class TalesEmotionsProcessor(DatasetBase):
         }
     )
 
-    def get_metadata(self) -> DatasetMetadata:
-        return TALES_EMOTION_METADATA
+    metadata: typing.ClassVar[DatasetMetadata] = TALES_EMOTION_METADATA
 
     def download_files(
         self, downloads_dir: pathlib.Path
@@ -224,10 +223,10 @@ class TalesEmotionsProcessor(DatasetBase):
             mapping=records,
             info=datasets.DatasetInfo(
                 dataset_name=self.name,
-                description=self.get_metadata().description,
-                citation=self.get_metadata().citation,
-                homepage=self.get_metadata().homepage,
-                license=self.get_metadata().license,
+                description=self.metadata.description,
+                citation=self.metadata.citation,
+                homepage=self.metadata.homepage,
+                license=self.metadata.license,
             ),
         )
 

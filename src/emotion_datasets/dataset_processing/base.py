@@ -44,6 +44,8 @@ class DatasetMetadata:
 class DatasetBase(metaclass=ABCMeta):
     name: str
 
+    metadata: typing.ClassVar[DatasetMetadata]
+
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
 
@@ -54,11 +56,6 @@ class DatasetBase(metaclass=ABCMeta):
 
         # Register =============================================================
         DATASET_REGISTRY[cls.name] = cls
-
-    def get_metadata(self) -> DatasetMetadata:
-        # Ideally this is a property
-        # But those don't play well with dataclasses and inheritance
-        raise NotImplementedError
 
     @staticmethod
     def check_directory(data_subdir: pathlib.Path, overwrite: bool):

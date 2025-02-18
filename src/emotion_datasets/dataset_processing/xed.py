@@ -5,6 +5,7 @@ import pathlib
 import logging
 import os
 import shutil
+import typing
 
 import datasets
 
@@ -85,8 +86,7 @@ class XEDProcessor(DatasetBase):
         }
     )
 
-    def get_metadata(self) -> DatasetMetadata:
-        return XED_METADATA
+    metadata: typing.ClassVar[DatasetMetadata] = XED_METADATA
 
     def download_files(self, downloads_dir: pathlib.Path) -> XEDDownloadResult:
         downloads_subdir = downloads_dir / self.name
@@ -192,10 +192,10 @@ class XEDProcessor(DatasetBase):
             mapping=records,
             info=datasets.DatasetInfo(
                 dataset_name=self.name,
-                description=self.get_metadata().description,
-                citation=self.get_metadata().citation,
-                homepage=self.get_metadata().homepage,
-                license=self.get_metadata().license,
+                description=self.metadata.description,
+                citation=self.metadata.citation,
+                homepage=self.metadata.homepage,
+                license=self.metadata.license,
             ),
         )
 

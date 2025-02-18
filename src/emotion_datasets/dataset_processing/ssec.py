@@ -77,8 +77,7 @@ class SSECProcessor(DatasetBase):
         default_factory=lambda: ["train-combined-0.0.csv", "test-combined-0.0.csv"]
     )
 
-    def get_metadata(self) -> DatasetMetadata:
-        return SSEC_METADATA
+    metadata: typing.ClassVar[DatasetMetadata] = SSEC_METADATA
 
     def download_files(self, downloads_dir: pathlib.Path) -> SSECDownloadResult:
         downloads_subdir = downloads_dir / self.name
@@ -209,10 +208,10 @@ class SSECProcessor(DatasetBase):
             logger.info("Processing - Ingested handoff file using HuggingFace")
 
             hf_dataset.info.dataset_name = self.name
-            hf_dataset.info.description = self.get_metadata().description
-            hf_dataset.info.citation = self.get_metadata().citation
-            hf_dataset.info.homepage = self.get_metadata().homepage
-            hf_dataset.info.license = self.get_metadata().license
+            hf_dataset.info.description = self.metadata.description
+            hf_dataset.info.citation = self.metadata.citation
+            hf_dataset.info.homepage = self.metadata.homepage
+            hf_dataset.info.license = self.metadata.license
 
             logger.info(f"Processing - Saving HuggingFace dataset: {data_subdir}")
 

@@ -73,8 +73,7 @@ class CrowdFlowerProcessor(DatasetBase):
 
     url: str = "https://raw.githubusercontent.com/tlkh/text-emotion-classification/refs/heads/master/dataset/original/text_emotion.csv"
 
-    def get_metadata(self) -> DatasetMetadata:
-        return CROWDFLOWER_METADATA
+    metadata: typing.ClassVar[DatasetMetadata] = CROWDFLOWER_METADATA
 
     def download_files(self, downloads_dir: pathlib.Path) -> CrowdFlowerDownloadResult:
         downloads_subdir = downloads_dir / self.name
@@ -161,10 +160,10 @@ class CrowdFlowerProcessor(DatasetBase):
             logger.info("Processing - Ingested handoff file using HuggingFace")
 
             hf_dataset.info.dataset_name = self.name
-            hf_dataset.info.description = self.get_metadata().description
-            hf_dataset.info.citation = self.get_metadata().citation
-            hf_dataset.info.homepage = self.get_metadata().homepage
-            hf_dataset.info.license = self.get_metadata().license
+            hf_dataset.info.description = self.metadata.description
+            hf_dataset.info.citation = self.metadata.citation
+            hf_dataset.info.homepage = self.metadata.homepage
+            hf_dataset.info.license = self.metadata.license
 
             logger.info(f"Processing - Saving HuggingFace dataset: {data_subdir}")
 

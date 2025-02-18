@@ -70,8 +70,7 @@ class FBValenceArousalProcessor(DatasetBase):
 
     url: str = "https://raw.githubusercontent.com/wwbp/additional_data_sets/refs/heads/master/valence_arousal/dataset-fb-valence-arousal-anon.csv"
 
-    def get_metadata(self) -> DatasetMetadata:
-        return FB_VALENCE_AROUSAL_METADATA
+    metadata: typing.ClassVar[DatasetMetadata] = FB_VALENCE_AROUSAL_METADATA
 
     def download_files(
         self, downloads_dir: pathlib.Path
@@ -169,10 +168,10 @@ class FBValenceArousalProcessor(DatasetBase):
             logger.info("Processing - Ingested handoff file using HuggingFace")
 
             hf_dataset.info.dataset_name = self.name
-            hf_dataset.info.description = self.get_metadata().description
-            hf_dataset.info.citation = self.get_metadata().citation
-            hf_dataset.info.homepage = self.get_metadata().homepage
-            hf_dataset.info.license = self.get_metadata().license
+            hf_dataset.info.description = self.metadata.description
+            hf_dataset.info.citation = self.metadata.citation
+            hf_dataset.info.homepage = self.metadata.homepage
+            hf_dataset.info.license = self.metadata.license
 
             logger.info(f"Processing - Saving HuggingFace dataset: {data_subdir}")
 

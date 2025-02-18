@@ -70,8 +70,7 @@ class CARERProcessor(DatasetBase):
     hf_config_name: str = "split"
     hf_splits: str = "train+validation+test"
 
-    def get_metadata(self) -> DatasetMetadata:
-        return CARER_METADATA
+    metadata: typing.ClassVar[DatasetMetadata] = CARER_METADATA
 
     def download_files(self, downloads_dir: pathlib.Path) -> CARERDownloadResult:
         downloads_subdir = downloads_dir / self.name
@@ -120,10 +119,10 @@ class CARERProcessor(DatasetBase):
         logger.info(f"Processing - Saving HuggingFace dataset: {data_subdir}")
 
         hf_dataset.info.dataset_name = self.name
-        hf_dataset.info.description = self.get_metadata().description
-        hf_dataset.info.citation = self.get_metadata().citation
-        hf_dataset.info.homepage = self.get_metadata().homepage
-        hf_dataset.info.license = self.get_metadata().license
+        hf_dataset.info.description = self.metadata.description
+        hf_dataset.info.citation = self.metadata.citation
+        hf_dataset.info.homepage = self.metadata.homepage
+        hf_dataset.info.license = self.metadata.license
 
         hf_dataset.save_to_disk(
             dataset_path=str(data_subdir),

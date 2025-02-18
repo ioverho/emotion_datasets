@@ -76,8 +76,7 @@ class SentimentalLIARProcessor(DatasetBase):
         ]
     )
 
-    def get_metadata(self) -> DatasetMetadata:
-        return SENTIMENTAL_LIAR_METADATA
+    metadata: typing.ClassVar[DatasetMetadata] = SENTIMENTAL_LIAR_METADATA
 
     def download_files(
         self, downloads_dir: pathlib.Path
@@ -175,10 +174,10 @@ class SentimentalLIARProcessor(DatasetBase):
             logger.info("Processing - Ingested handoff file using HuggingFace")
 
             hf_dataset.info.dataset_name = self.name
-            hf_dataset.info.description = self.get_metadata().description
-            hf_dataset.info.citation = self.get_metadata().citation
-            hf_dataset.info.homepage = self.get_metadata().homepage
-            hf_dataset.info.license = self.get_metadata().license
+            hf_dataset.info.description = self.metadata.description
+            hf_dataset.info.citation = self.metadata.citation
+            hf_dataset.info.homepage = self.metadata.homepage
+            hf_dataset.info.license = self.metadata.license
 
             logger.info(f"Processing - Saving HuggingFace dataset: {data_subdir}")
 

@@ -67,8 +67,7 @@ class EmoBankProcessor(DatasetBase):
     data_file: str = "https://raw.githubusercontent.com/JULIELab/EmoBank/refs/heads/master/corpus/emobank.csv"
     metadata_file: str = "https://raw.githubusercontent.com/JULIELab/EmoBank/refs/heads/master/corpus/meta.tsv"
 
-    def get_metadata(self) -> DatasetMetadata:
-        return EMOBANK_METADATA
+    metadata: typing.ClassVar[DatasetMetadata] = EMOBANK_METADATA
 
     def download_files(self, downloads_dir: pathlib.Path) -> EmoBankDownloadResult:
         os.makedirs(downloads_dir / self.name, exist_ok=True)
@@ -192,10 +191,10 @@ class EmoBankProcessor(DatasetBase):
             logger.info("Processing - Ingested handoff file using HuggingFace")
 
             hf_dataset.info.dataset_name = self.name
-            hf_dataset.info.description = self.get_metadata().description
-            hf_dataset.info.citation = self.get_metadata().citation
-            hf_dataset.info.homepage = self.get_metadata().homepage
-            hf_dataset.info.license = self.get_metadata().license
+            hf_dataset.info.description = self.metadata.description
+            hf_dataset.info.citation = self.metadata.citation
+            hf_dataset.info.homepage = self.metadata.homepage
+            hf_dataset.info.license = self.metadata.license
 
             logger.info(f"Processing - Saving HuggingFace dataset: {data_subdir}")
 
