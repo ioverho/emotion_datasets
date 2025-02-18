@@ -6,7 +6,7 @@ DATASET_SIZES = {
     "AffectiveText": "1.3k",
     "CARER": "20k",
     "CrowdFlower": "40k",
-    "ElectoralTweets": "3.8k",
+    "ElectoralTweets": "1.1k",
     "EmoBank": "10k",
     "EmoInt": "6.9k",
     "FBValenceArousal": "2.9k",

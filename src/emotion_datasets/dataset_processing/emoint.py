@@ -195,7 +195,7 @@ class EmoIntProcessor(DatasetBase):
                 CREATE OR REPLACE TABLE temp
                 AS (
                     SELECT
-                        ARRAY_AGG(id) as ids,
+                        ARRAY_AGG(id) AS ids,
                         text,
                         MEAN(anger) AS anger,
                         MEAN(fear) AS fear,

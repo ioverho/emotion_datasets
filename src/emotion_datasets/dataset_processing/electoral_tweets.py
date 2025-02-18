@@ -286,6 +286,45 @@ class ElectoralTweetsProcessor(DatasetBase):
                 """
             )
 
+            # Handle texts with multiple annotations
+            # This makes this dataset both multilabel but not continuous
+            # Each value is just a count of votes, not the insentiy of that emotion
+            # Essentially, any non-zero value received at least 1 annotation
+            temp_db.sql(
+                """
+                CREATE OR REPLACE TABLE temp
+                AS (
+                    SELECT
+                        ARRAY_AGG(id) AS ids,
+                        ARRAY_AGG(annotator_trust) AS annotator_trusts,
+                        text,
+                        ARRAY_AGG(valence) AS valence,
+                        ARRAY_AGG(arousal) AS arousal,
+                        COUNT(acceptance) AS acceptance,
+                        COUNT(admiration) AS admiration,
+                        COUNT(amazement) AS amazement,
+                        COUNT(\"anger or annoyance or hostility or fury\") AS \"anger or annoyance or hostility or fury\",
+                        COUNT(\"anticipation or  expectancy or interest\") AS \"anticipation or  expectancy or interest\",
+                        COUNT(\"calmness or serenity\") AS \"calmness or serenity\",
+                        COUNT(disappointment) AS disappointment,
+                        COUNT(disgust) AS disgust,
+                        COUNT(dislike) AS dislike,
+                        COUNT(\"fear or apprehension or panic or terror\") AS \"fear or apprehension or panic or terror\",
+                        COUNT(hate) AS hate,
+                        COUNT(indifference) AS indifference,
+                        COUNT(\"joy or happiness or elation\") AS \"joy or happiness or elation\",
+                        COUNT(\"like\") AS \"like\",
+                        COUNT(\"sadness or gloominess or grief or sorrow\") AS \"sadness or gloominess or grief or sorrow\",
+                        COUNT(surprise) AS surprise,
+                        COUNT(trust) AS trust,
+                        COUNT(\"uncertainty or indecision or confusion\") AS \"uncertainty or indecision or confusion\",
+                        COUNT(vigilance) AS vigilance,
+                    FROM temp
+                    GROUP BY text
+                )
+                """
+            )
+
             logger.info("Processing - Merged files")
 
             handoff_file = temp_data_dir / "output.parquet"

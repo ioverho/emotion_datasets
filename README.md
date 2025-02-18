@@ -10,7 +10,7 @@ Currently implemented datasets:
 | [AffectiveText](https://web.eecs.umich.edu/~mihalcea/downloads.html#affective)               | Continuous ratings for different emotion classes                 | 7      | ✓          | ✓          | 1.3k | News headlines                                    |
 | [CARER](https://github.com/dair-ai/emotion_dataset)                                          | Hashtags in Twitter posts corresponding to Ekman's core emotions | 0      |            |            | 20k  | Twitter posts                                     |
 | CrowdFlower                                                                                  | Hashtags in twitter posts                                        | 13     |            |            | 40k  | Twitter posts                                     |
-| [ElectoralTweets](http://saifmohammad.com/WebPages/SentimentEmotionLabeledData.html)         | Discrete categories with some aggregated emotions                | 21     |            |            | 3.8k | Twitter posts                                     |
+| [ElectoralTweets](http://saifmohammad.com/WebPages/SentimentEmotionLabeledData.html)         | Discrete categories with some aggregated emotions                | 21     | ✓          |            | 1.1k | Twitter posts                                     |
 | [EmoBank](https://github.com/JULIELab/EmoBank/tree/master)                                   | Valence-Arousal-Dominance                                        | 3      |            | ✓          | 10k  | Varied                                            |
 | [EmoInt](http://saifmohammad.com/WebPages/EmotionIntensity-SharedTask.html)                  | Subset of common emotions anotated using best-worst scaling      | 4      | ✓          | ✓          | 6.9k | Tweets                                            |
 | [FBValenceArousal](https://github.com/wwbp/additional_data_sets/tree/master/valence_arousal) | Valence Arousal                                                  | 2      |            | ✓          | 2.9k | Facebook posts                                    |
@@ -97,11 +97,16 @@ All datasets are stored as HuggingFace datasets compatible directories. This imp
 | [SemEval-2018 Task 1: Affect in Tweets](https://competitions.codalab.org/competitions/17751) | Continuation of EmoInt                        |
 | [VENT](https://zenodo.org/records/2537982)                                                   | Huge tweets dataset with many emotions        |
 | [Ren20k](https://dcs.uoc.ac.in/cida/resources/ren-20k.html)                                  | Many news articles with 5 continuous emotions |
-|                                                                                              |                                               |
+| isear                                                                                        |                                               |
+| dailydialog                                                                                  |                                               |
+| emotion-cause                                                                                |                                               |
+| emotiondata-aman                                                                             |                                               |
+| TEC                                                                                          |                                               |
 
 ### Notes
 
-Both CARER and Crowdflower will need to be edited to match the same dataset schema
+1. Both CARER and Crowdflower will need to be edited to match the same dataset schema
+2. Check for multilabel instaces in ElectoralTweets
 
 </details>
 
