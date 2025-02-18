@@ -12,7 +12,7 @@ Currently implemented datasets:
 | CrowdFlower                                                                                  | Hashtags in twitter posts                                        | 13     |            |            | 40k  | Twitter posts                                     |
 | [ElectoralTweets](http://saifmohammad.com/WebPages/SentimentEmotionLabeledData.html)         | Discrete categories with some aggregated emotions                | 21     | ✓          |            | 1.1k | Twitter posts                                     |
 | [EmoBank](https://github.com/JULIELab/EmoBank/tree/master)                                   | Valence-Arousal-Dominance                                        | 3      |            | ✓          | 10k  | Varied                                            |
-| [EmoInt](http://saifmohammad.com/WebPages/EmotionIntensity-SharedTask.html)                  | Subset of common emotions anotated using best-worst scaling      | 4      | ✓          | ✓          | 6.9k | Tweets                                            |
+| [EmoInt](http://saifmohammad.com/WebPages/EmotionIntensity-SharedTask.html)                  | Subset of common emotions anotated using best-worst scaling      | 4      | ✓          | ✓          | 6.9k | Twitter posts                                     |
 | [FBValenceArousal](https://github.com/wwbp/additional_data_sets/tree/master/valence_arousal) | Valence Arousal                                                  | 2      |            | ✓          | 2.9k | Facebook posts                                    |
 | [GoEmotions](https://github.com/google-research/google-research/tree/master/goemotions)      | Custom hierarchical emotion system                               | 28     |            |            | 58k  | Reddit posts                                      |
 | [SentimentalLIAR](https://github.com/UNHSAILLab/SentimentalLIAR)                             | Automated emotion annotation using Google and IBM NLP APIs       | 6      | ✓          | ✓          | 13k  | Short snippets from politicians and famous people |
@@ -106,7 +106,7 @@ All datasets are stored as HuggingFace datasets compatible directories. This imp
 ### Notes
 
 1. Both CARER and Crowdflower will need to be edited to match the same dataset schema
-2. Check for multilabel instaces in ElectoralTweets
+2. ~~Check for multilabel instaces in ElectoralTweets~~
 
 </details>
 
