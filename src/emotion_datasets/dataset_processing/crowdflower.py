@@ -67,7 +67,7 @@ class CrowdFlowerProcessingResult(
 CORPUS_MATCHER = re.compile(r"<instance id=\"(.*?)\">(.*?)</instance>")
 
 
-@dataclasses.dataclass(kw_only=True, frozen=True)
+@dataclasses.dataclass
 class CrowdFlowerProcessor(DatasetBase):
     name: str = "CrowdFlower"
 

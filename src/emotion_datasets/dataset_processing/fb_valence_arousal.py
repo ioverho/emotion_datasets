@@ -64,7 +64,7 @@ class FBValenceArousalProcessingResult(
 CORPUS_MATCHER = re.compile(r"<instance id=\"(.*?)\">(.*?)</instance>")
 
 
-@dataclasses.dataclass(kw_only=True, frozen=True)
+@dataclasses.dataclass
 class FBValenceArousalProcessor(DatasetBase):
     name: str = "FBValenceArousal"
 

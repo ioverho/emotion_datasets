@@ -75,7 +75,7 @@ class AffectiveTextProcessingResult(
 CORPUS_MATCHER = re.compile(r"<instance id=\"(.*?)\">(.*?)</instance>")
 
 
-@dataclasses.dataclass(kw_only=True, frozen=True)
+@dataclasses.dataclass
 class AffectiveTextProcessor(DatasetBase):
     name: str = "AffectiveText"
 

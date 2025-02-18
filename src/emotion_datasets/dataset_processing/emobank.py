@@ -60,7 +60,7 @@ class EmoBankProcessingResult(
     data_dir: pathlib.Path
 
 
-@dataclasses.dataclass(kw_only=True, frozen=True)
+@dataclasses.dataclass
 class EmoBankProcessor(DatasetBase):
     name: str = "EmoBank"
 

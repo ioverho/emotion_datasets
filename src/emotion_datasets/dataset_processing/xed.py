@@ -65,7 +65,7 @@ class XEDProcessingResult(
     data_subdir: pathlib.Path
 
 
-@dataclasses.dataclass(kw_only=True, frozen=True)
+@dataclasses.dataclass
 class XEDProcessor(DatasetBase):
     name: str = "XED"
 

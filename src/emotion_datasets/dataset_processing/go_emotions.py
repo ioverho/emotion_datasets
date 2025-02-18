@@ -86,7 +86,7 @@ class GoEmotionsProcessingResult(
     data_dir: pathlib.Path
 
 
-@dataclasses.dataclass(kw_only=True, frozen=True)
+@dataclasses.dataclass
 class GoEmotionsProcessor(DatasetBase):
     name: str = "GoEmotions"
 
@@ -185,7 +185,9 @@ class GoEmotionsProcessor(DatasetBase):
             )
         )
 
-        logger.debug(f"Processing - Looking for files in {downloaded_files_pattern}")
+        logger.debug(
+            msg=f"Processing - Looking for files in {downloaded_files_pattern}"
+        )
 
         with tempfile.TemporaryDirectory() as tmpdirname:
             temp_data_dir = (data_dir / tmpdirname).resolve()

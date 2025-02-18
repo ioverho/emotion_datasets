@@ -62,7 +62,7 @@ class CARERProcessingResult(
     data_dir: pathlib.Path
 
 
-@dataclasses.dataclass(kw_only=True)
+@dataclasses.dataclass
 class CARERProcessor(DatasetBase):
     name: str = "CARER"
 

@@ -64,7 +64,7 @@ class SentimentalLIARProcessingResult(
     data_dir: pathlib.Path
 
 
-@dataclasses.dataclass(kw_only=True, frozen=True)
+@dataclasses.dataclass
 class SentimentalLIARProcessor(DatasetBase):
     name: str = "SentimentalLIAR"
 

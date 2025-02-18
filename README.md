@@ -15,10 +15,13 @@ Currently implemented datasets:
 | [EmoInt](http://saifmohammad.com/WebPages/EmotionIntensity-SharedTask.html)                  | Subset of common emotions anotated using best-worst scaling      | 4      | ✓          | ✓          | 6.9k | Twitter posts                                     |
 | [FBValenceArousal](https://github.com/wwbp/additional_data_sets/tree/master/valence_arousal) | Valence Arousal                                                  | 2      |            | ✓          | 2.9k | Facebook posts                                    |
 | [GoEmotions](https://github.com/google-research/google-research/tree/master/goemotions)      | Custom hierarchical emotion system                               | 28     |            |            | 58k  | Reddit posts                                      |
+| [REN20k](https://dcs.uoc.ac.in/cida/resources/ren-20k.html)[1]                               | Evoked emoions annotated by many readers                         | 8      | ✓          | ✓          | 20k  | News articles                                     |
 | [SentimentalLIAR](https://github.com/UNHSAILLab/SentimentalLIAR)                             | Automated emotion annotation using Google and IBM NLP APIs       | 6      | ✓          | ✓          | 13k  | Short snippets from politicians and famous people |
 | [SSEC](https://www.romanklinger.de/ssec/)                                                    | A mixture between Plutchik and Ekman                             | 8      | ✓          |            | 4.8k | Twitter posts                                     |
 | [TalesEmotions](http://people.rc.rit.edu/~coagla/affectdata/index.html)                      | Ekman basic emotions                                             | 7      |            |            | 15k  | Fairy tales                                       |
 | [XED](https://github.com/Helsinki-NLP/XED/tree/master)                                       | Plutchik core emotions                                           | 9      | ✓          | ✓          | 27k  | Subtitles                                         |
+
+[1]: There are additional usage limitations in place, or the dataset is not publicly available. You are responsbile for requesting and downloading the dataset yourself from the authors' homepage.
 
 ## Installation
 
@@ -58,13 +61,13 @@ To process a single datasetr, using `uv`, run:
 uv run process_dataset dataset=${DATASET}
 ```
 
-The very first run might take longer, because the necessary dependencies will need to be installed.
-
-The script has been equiped with a `hydra` CLI. Use `--help` to see which options are available.
+The script has been equiped with a `hydra` CLI. Use `--help` to see which options are available. To get help for a specific dataset, run as: `uv run process_dataset dataset=${DATASET} --help`.
 
 To change the location of the output directory, run the script with the `file_system.output_dir=${OUTPUT_DIR}` command.
 
 If the dataset has already been processed and currently resides in the output directory, the script will fail, unless `overwrite=True` is set.
+
+If the data needs to be manually downloaded first (see the [1] annotation in the above table), you must set the `dataset.download_file_path` parameter to the downloaded file. This file will not be altered during processing.
 
 ### Output
 
@@ -96,7 +99,6 @@ All datasets are stored as HuggingFace datasets compatible directories. This imp
 | -------------------------------------------------------------------------------------------- | --------------------------------------------- |
 | [SemEval-2018 Task 1: Affect in Tweets](https://competitions.codalab.org/competitions/17751) | Continuation of EmoInt                        |
 | [VENT](https://zenodo.org/records/2537982)                                                   | Huge tweets dataset with many emotions        |
-| [Ren20k](https://dcs.uoc.ac.in/cida/resources/ren-20k.html)                                  | Many news articles with 5 continuous emotions |
 | isear                                                                                        |                                               |
 | dailydialog                                                                                  |                                               |
 | emotion-cause                                                                                |                                               |

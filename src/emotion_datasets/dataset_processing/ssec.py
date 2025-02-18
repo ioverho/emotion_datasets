@@ -67,7 +67,7 @@ class SSECProcessingResult(
     data_dir: pathlib.Path
 
 
-@dataclasses.dataclass(kw_only=True, frozen=True)
+@dataclasses.dataclass
 class SSECProcessor(DatasetBase):
     name: str = "SSEC"
 

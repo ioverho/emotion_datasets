@@ -84,7 +84,7 @@ class ElectoralTweetsProcessingResult(
     data_dir: pathlib.Path
 
 
-@dataclasses.dataclass(kw_only=True, frozen=True)
+@dataclasses.dataclass
 class ElectoralTweetsProcessor(DatasetBase):
     name: str = "ElectoralTweets"
 

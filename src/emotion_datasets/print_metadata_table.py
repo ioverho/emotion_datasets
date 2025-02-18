@@ -11,22 +11,30 @@ DATASET_SIZES = {
     "EmoInt": "6.9k",
     "FBValenceArousal": "2.9k",
     "GoEmotions": "58k",
+    "REN20k": "20k",
     "SentimentalLIAR": "13k",
     "SSEC": "4.8k",
     "TalesEmotions": "15k",
     "XED": "27k",
 }
 
+NAME_ANNOTATIONS = {"REN20k": "[1]"}
+
 if __name__ == "__main__":
     rows = []
     for name, dataset in DATASET_REGISTRY.items():
         metadata = dataset.metadata
 
+        if metadata.homepage != "":
+            dataset_name_and_url = f"[{name}]({metadata.homepage})"
+        else:
+            dataset_name_and_url = f"{name}"
+
+        dataset_name_and_url += f"{NAME_ANNOTATIONS.get(name, '')}"
+
         rows.append(
             {
-                "Name": f"[{name}]({metadata.homepage})"
-                if metadata.homepage != ""
-                else f"{name}",
+                "Name": dataset_name_and_url,
                 # "Description": f"{metadata.description.split('.', maxsplit=1)[1].strip()}",
                 "System": metadata.system,
                 "Labels": len(metadata.emotions),

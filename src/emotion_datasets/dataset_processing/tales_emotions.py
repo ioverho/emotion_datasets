@@ -74,7 +74,7 @@ class TalesEmotionsProcessingResult(
     data_subdir: pathlib.Path
 
 
-@dataclasses.dataclass(kw_only=True, frozen=True)
+@dataclasses.dataclass
 class TalesEmotionsProcessor(DatasetBase):
     name: str = "TalesEmotions"
 

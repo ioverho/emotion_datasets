@@ -62,7 +62,7 @@ class EmoIntProcessingResult(
     data_subdir: pathlib.Path
 
 
-@dataclasses.dataclass(kw_only=True, frozen=True)
+@dataclasses.dataclass
 class EmoIntProcessor(DatasetBase):
     name: str = "EmoInt"
 
