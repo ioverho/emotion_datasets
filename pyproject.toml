@@ -1,9 +1,9 @@
 [project]
 name = "emotion-datasets"
 version = "0.1.0"
-description = "A library for quickly collecting and processing many emotion datasets"
+description = "An effort to automate the downloading and processing of textual datasets for emotion classification. Inspired by sarnthil/unify-emotion-datasets, but updated and more comprehensive."
 readme = "README.md"
-authors = [{ name = "ioverho", email = "i.o.verhoeven@uva.nl" }]
+authors = [{ name = "Ivo Verhoeven", email = "i.o.verhoeven@uva.nl" }]
 requires-python = ">=3.11"
 dependencies = [
     "datasets>=3.2.0",
@@ -12,6 +12,10 @@ dependencies = [
     "requests>=2.32.3",
     "tqdm>=4.67.1",
 ]
+license = "CC-BY-4.0"
+
+[project.urls]
+Homepage = "https://github.com/ioverho/emotion_datasets"
 
 [project.scripts]
 process_dataset = "emotion_datasets:process_dataset"
@@ -22,8 +26,4 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [dependency-groups]
-dev = [
-    "pip>=25.0.1",
-    "ruff>=0.9.6",
-    "tabulate>=0.9.0",
-]
+dev = ["pip>=25.0.1", "ruff>=0.9.6", "tabulate>=0.9.0"]
