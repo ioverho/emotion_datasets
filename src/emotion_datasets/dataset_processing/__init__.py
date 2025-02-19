@@ -10,6 +10,7 @@ from .emobank import EmoBankProcessor  # noqa: F401
 from .emoint import EmoIntProcessor  # noqa: F401
 from .fb_valence_arousal import FBValenceArousalProcessor  # noqa: F401
 from .go_emotions import GoEmotionsProcessor  # noqa: F401
+from .isear import ISEARProcessor  # noqa: F401
 from .ren20k import REN20kProcessor  # noqa: F401
 from .sentimental_liar import SentimentalLIARProcessor  # noqa: F401
 from .ssec import SSECProcessor  # noqa: F401

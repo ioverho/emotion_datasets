@@ -5,21 +5,22 @@ An effort to automate the downloading and processing of textual datasets for emo
 
 Currently implemented datasets:
 
-| Name                                                                                         | System                                                           | Labels | Multilabel | Continuous | Size | Domain                                            |
-| -------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- | -----: | :--------: | :--------: | :--: | ------------------------------------------------- |
-| [AffectiveText](https://web.eecs.umich.edu/~mihalcea/downloads.html#affective)               | Continuous ratings for different emotion classes                 | 7      | ✓          | ✓          | 1.3k | News headlines                                    |
-| [CARER](https://github.com/dair-ai/emotion_dataset)                                          | Hashtags in Twitter posts corresponding to Ekman's core emotions | 0      |            |            | 20k  | Twitter posts                                     |
-| CrowdFlower                                                                                  | Hashtags in twitter posts                                        | 13     |            |            | 40k  | Twitter posts                                     |
-| [ElectoralTweets](http://saifmohammad.com/WebPages/SentimentEmotionLabeledData.html)         | Discrete categories with some aggregated emotions                | 21     | ✓          |            | 1.1k | Twitter posts                                     |
-| [EmoBank](https://github.com/JULIELab/EmoBank/tree/master)                                   | Valence-Arousal-Dominance                                        | 3      |            | ✓          | 10k  | Varied                                            |
-| [EmoInt](http://saifmohammad.com/WebPages/EmotionIntensity-SharedTask.html)                  | Subset of common emotions anotated using best-worst scaling      | 4      | ✓          | ✓          | 6.9k | Twitter posts                                     |
-| [FBValenceArousal](https://github.com/wwbp/additional_data_sets/tree/master/valence_arousal) | Valence Arousal                                                  | 2      |            | ✓          | 2.9k | Facebook posts                                    |
-| [GoEmotions](https://github.com/google-research/google-research/tree/master/goemotions)      | Custom hierarchical emotion system                               | 28     |            |            | 58k  | Reddit posts                                      |
-| [REN20k](https://dcs.uoc.ac.in/cida/resources/ren-20k.html)[1]                               | Evoked emoions annotated by many readers                         | 8      | ✓          | ✓          | 20k  | News articles                                     |
-| [SentimentalLIAR](https://github.com/UNHSAILLab/SentimentalLIAR)                             | Automated emotion annotation using Google and IBM NLP APIs       | 6      | ✓          | ✓          | 13k  | Short snippets from politicians and famous people |
-| [SSEC](https://www.romanklinger.de/ssec/)                                                    | A mixture between Plutchik and Ekman                             | 8      | ✓          |            | 4.8k | Twitter posts                                     |
-| [TalesEmotions](http://people.rc.rit.edu/~coagla/affectdata/index.html)                      | Ekman basic emotions                                             | 7      |            |            | 15k  | Fairy tales                                       |
-| [XED](https://github.com/Helsinki-NLP/XED/tree/master)                                       | Plutchik core emotions                                           | 9      | ✓          | ✓          | 27k  | Subtitles                                         |
+| Name                                                                                         | System                                                            | Labels | Multilabel | Continuous | Size | Domain                                            |
+| -------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- | -----: | :--------: | :--------: | :--: | ------------------------------------------------- |
+| [AffectiveText](https://web.eecs.umich.edu/~mihalcea/downloads.html#affective)               | Continuous ratings for different emotion classes                  | 7      | ✓          | ✓          | 1.3k | News headlines                                    |
+| [CARER](https://github.com/dair-ai/emotion_dataset)                                          | Hashtags in Twitter posts corresponding to Ekman's core emotions  | 0      |            |            | 20k  | Twitter posts                                     |
+| CrowdFlower                                                                                  | Hashtags in twitter posts                                         | 13     |            |            | 40k  | Twitter posts                                     |
+| [ElectoralTweets](http://saifmohammad.com/WebPages/SentimentEmotionLabeledData.html)         | Discrete categories with some aggregated emotions                 | 21     | ✓          |            | 1.1k | Twitter posts                                     |
+| [EmoBank](https://github.com/JULIELab/EmoBank/tree/master)                                   | Valence-Arousal-Dominance                                         | 3      |            | ✓          | 10k  | Varied                                            |
+| [EmoInt](http://saifmohammad.com/WebPages/EmotionIntensity-SharedTask.html)                  | Subset of common emotions anotated using best-worst scaling       | 4      | ✓          | ✓          | 6.9k | Twitter posts                                     |
+| [FBValenceArousal](https://github.com/wwbp/additional_data_sets/tree/master/valence_arousal) | Valence Arousal                                                   | 2      |            | ✓          | 2.9k | Facebook posts                                    |
+| [GoEmotions](https://github.com/google-research/google-research/tree/master/goemotions)      | Custom hierarchical emotion system                                | 28     |            |            | 58k  | Reddit posts                                      |
+| [ISEAR](https://www.unige.ch/cisa/research/materials-and-online-research/research-material/) | Situations in which a subject experienced one of 7 major emotions | 7      |            |            |      | Situation descriptions                            |
+| [REN20k](https://dcs.uoc.ac.in/cida/resources/ren-20k.html)[1]                               | Evoked emoions annotated by many readers                          | 8      | ✓          | ✓          | 20k  | News articles                                     |
+| [SentimentalLIAR](https://github.com/UNHSAILLab/SentimentalLIAR)                             | Automated emotion annotation using Google and IBM NLP APIs        | 6      | ✓          | ✓          | 13k  | Short snippets from politicians and famous people |
+| [SSEC](https://www.romanklinger.de/ssec/)                                                    | A mixture between Plutchik and Ekman                              | 8      | ✓          |            | 4.8k | Twitter posts                                     |
+| [TalesEmotions](http://people.rc.rit.edu/~coagla/affectdata/index.html)                      | Ekman basic emotions                                              | 7      |            |            | 15k  | Fairy tales                                       |
+| [XED](https://github.com/Helsinki-NLP/XED/tree/master)                                       | Plutchik core emotions                                            | 9      | ✓          | ✓          | 27k  | Subtitles                                         |
 
 [1]: There are additional usage limitations in place, or the dataset is not publicly available. You are responsbile for requesting and downloading the dataset yourself from the authors' homepage.
 
@@ -99,7 +100,6 @@ All datasets are stored as HuggingFace datasets compatible directories. This imp
 | -------------------------------------------------------------------------------------------- | --------------------------------------------- |
 | [SemEval-2018 Task 1: Affect in Tweets](https://competitions.codalab.org/competitions/17751) | Continuation of EmoInt                        |
 | [VENT](https://zenodo.org/records/2537982)                                                   | Huge tweets dataset with many emotions        |
-| isear                                                                                        |                                               |
 | dailydialog                                                                                  |                                               |
 | emotion-cause                                                                                |                                               |
 | emotiondata-aman                                                                             |                                               |
@@ -109,6 +109,7 @@ All datasets are stored as HuggingFace datasets compatible directories. This imp
 
 1. Both CARER and Crowdflower will need to be edited to match the same dataset schema
 2. ~~Check for multilabel instaces in ElectoralTweets~~
+3. Some method for seeing samples from each dataset
 
 </details>
 
