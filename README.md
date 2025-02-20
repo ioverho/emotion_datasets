@@ -20,7 +20,7 @@ Currently implemented datasets:
 | [SentimentalLIAR](https://github.com/UNHSAILLab/SentimentalLIAR)                             | Automated emotion annotation using Google and IBM NLP APIs                       | 6      | ✓          | ✓          | 13k  | Short snippets from politicians and famous people |
 | [SSEC](https://www.romanklinger.de/ssec/)                                                    | A mixture between Plutchik and Ekman                                             | 8      | ✓          |            | 4.8k | Twitter posts                                     |
 | [TalesEmotions](http://people.rc.rit.edu/~coagla/affectdata/index.html)                      | Ekman basic emotions                                                             | 7      |            |            | 15k  | Fairy tales                                       |
-| [WASSA22](https://codalab.lisn.upsaclay.fr/competitions/834#learn_the_details-overview)      | Ekman basic emotions, along with continuous annotations for empathy and distress |        |            |            |      |                                                   |
+| [WASSA22](https://codalab.lisn.upsaclay.fr/competitions/834#learn_the_details-overview)      | Ekman basic emotions, along with continuous scores for empathy and distress |        9 |              |              |  2.1k  | Essays                                            |
 | [XED](https://github.com/Helsinki-NLP/XED/tree/master)                                       | Plutchik core emotions                                                           | 9      | ✓          | ✓          | 27k  | Subtitles                                         |
 
 [1]: There are additional usage limitations in place, or the dataset is not publicly available. You are responsbile for requesting and downloading the dataset yourself from the authors' homepage.
@@ -110,14 +110,20 @@ If you use this repo, please make sure to cite the datasets you parsed. Also, pl
 <details>
 <summary>WIP Datasets</summary>
 
-| Name                                                                                         | Description                                   |
-| -------------------------------------------------------------------------------------------- | --------------------------------------------- |
-| [SemEval-2018 Task 1: Affect in Tweets](https://competitions.codalab.org/competitions/17751) | Continuation of EmoInt                        |
-| [VENT](https://zenodo.org/records/2537982)                                                   | Huge tweets dataset with many emotions        |
-| dailydialog                                                                                  |                                               |
-| emotion-cause                                                                                |                                               |
-| emotiondata-aman                                                                             |                                               |
-| TEC                                                                                          |                                               |
+| Name                                                                                                                                   | Description                            |
+| -------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| [SemEval-2018 Task 1: Affect in Tweets](https://competitions.codalab.org/competitions/17751)                                           | Continuation of EmoInt                 |
+| [VENT](https://zenodo.org/records/2537982)                                                                                             | Huge tweets dataset with many emotions |
+| dailydialog                                                                                                                            |                                        |
+| emotion-cause                                                                                                                          |                                        |
+| emotiondata-aman                                                                                                                       |                                        |
+| [TEC](https://socialmediaie.github.io/MetaCorpus/#:~:text=Hashtag%20Emotion%20Corpus%20(aka%20Twitter%20Emotion%20Corpus,%20or%20TEC)) |                                        |
+| [SMILE Twitter Emotion](https://socialmediaie.github.io/MetaCorpus/#:~:text=SMILE%20Twitter%20Emotion)                                 |                                        |
+| [Hurricane](https://github.com/shreydesai/hurricane)                                                                                   |                                        |
+| [USvsThem](https://github.com/LittlePea13/UsVsThem?tab=readme-ov-file)                                                                 |                                        |
+| [IMS Datasets](https://www.ims.uni-stuttgart.de/forschung/ressourcen/korpora/emotion/)                                                 |                                        |
+|                                                                                                                                        |                                        |
+
 
 ### Notes
 

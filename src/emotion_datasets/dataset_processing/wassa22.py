@@ -50,7 +50,7 @@ WASSA22_METADATA = DatasetMetadata(
     ],
     multilabel=False,
     continuous=False,
-    system="Ekman basic emotions, along with continuous annotations for empathy and distress",
+    system="Ekman basic emotions, along with continuous scores for empathy and distress",
     domain="Essays",
 )
 
