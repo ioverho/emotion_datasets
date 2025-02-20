@@ -15,6 +15,7 @@ from .ren20k import REN20kProcessor  # noqa: F401
 from .sentimental_liar import SentimentalLIARProcessor  # noqa: F401
 from .ssec import SSECProcessor  # noqa: F401
 from .tales_emotions import TalesEmotionsProcessor  # noqa: F401
+from .wassa22 import WASSA22Processor  # noqa: F401
 from .xed import XEDProcessor  # noqa: F401
 
 __all__ = ["get_dataset"]
