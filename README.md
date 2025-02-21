@@ -57,7 +57,7 @@ Here you should replace `${DATASET}` with a dataset name. See the table above fo
 
 This should return a `DatasetMetadata` object that contains a description, citation and licensing information, a list of all emotion columns, and metadata on how the emotion annotations were conducted.
 
-### Manually Processing a Single Dataset
+### Processing a Single Dataset
 
 To process a single datasetr, using `uv`, run:
 ```sh
@@ -72,7 +72,7 @@ If the dataset has already been processed and currently resides in the output di
 
 If the data needs to be manually downloaded first (see the [1] annotation in the above table), you must set the `dataset.download_file_path` parameter to the downloaded file. This file will not be altered during processing.
 
-### Output
+#### Output
 
 Running the script for any dataset should output a directory with the following structure:
 ```
@@ -94,6 +94,26 @@ All datasets are stored as HuggingFace datasets compatible directories. This imp
 1. `data-#####-of-#####.arrow`: the actual data, stored across arrow files
 2. `dataset_info.json`: metadata relevant for users. Includes information about the homepage and citing the original dataset
 3. `state.json`: metadata relevant for HuggingFace
+
+### Processing All Datasets
+
+To process all datasets in one go, use the `process_multiple_datasets` script.
+
+```bash
+uv run process_multiple_datasets
+```
+
+The configuration parameters for all other datasets can be set through the CLI as usual. Each dataset is now under `datasets.${DATASET}`. For some datasets it is required to add configuration parameters. For example REN20k must be manually downloaded. Unless these datasets are skipped, the script will fail before processing any dataset.
+
+```bash
+uv run process_multiple_datasets datasets.ren20k.download_file_path='./downloads/REN-20k.zip'
+```
+
+Should you wish to skip any datasets, you can use the skip argument:
+
+```bash
+uv run process_multiple_datasets 'skip=[${DATASET_1}, ${DATASET_2}]'
+```
 
 ## Citation
 

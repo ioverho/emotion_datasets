@@ -5,7 +5,6 @@ import logging
 import tempfile
 import typing
 import shutil
-import json
 import zipfile
 
 import duckdb
@@ -18,7 +17,13 @@ from emotion_datasets.dataset_processing.base import (
     DownloadError,
     DatasetMetadata,
 )
-from emotion_datasets.utils import download, get_file_stats, update_manifest, update_bib_file
+from emotion_datasets.utils import (
+    download,
+    get_file_stats,
+    update_manifest,
+    update_bib_file,
+    update_samples,
+)
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -27,18 +32,18 @@ USVSTHEM_METADATA = DatasetMetadata(
     description="The UsVsThem dataset, as processed by 'emotion_datasets'. Consisting of 6861 Reddit comments annotated for populist attitudes, this dataset was used to investigate the relationship between populist mindsets and social groups, as well as a range of emotions typically associated with these.",
     citation=(
         "@inproceedings{emotion_dataset_us_vs_them,"
-        "\n   title = \"Us vs. Them: A Dataset of Populist Attitudes, News Bias and Emotions\","
-        "\n   author = \"Huguet-Cabot, Pere-Llu{\'\i}s  and"
+        '\n   title = "Us vs. Them: A Dataset of Populist Attitudes, News Bias and Emotions",'
+        "\n   author = \"Huguet-Cabot, Pere-Llu{'\\i}s  and"
         "\n     Abadi, David  and"
         "\n     Fischer, Agneta  and"
-        "\n     Shutova, Ekaterina\","
-        "\n   booktitle = \"Proceedings of the 16th Conference of the European Chapter of the Association for Computational Linguistics: Main Volume\","
+        '\n     Shutova, Ekaterina",'
+        '\n   booktitle = "Proceedings of the 16th Conference of the European Chapter of the Association for Computational Linguistics: Main Volume",'
         "\n   month = apr,"
-        "\n   year = \"2021\","
-        "\n   address = \"Online\","
-        "\n   publisher = \"Association for Computational Linguistics\","
-        "\n   url = \"http://dx.doi.org/10.18653/v1/2021.eacl-main.165\","
-        "\n   pages = \"1921--1945\""
+        '\n   year = "2021",'
+        '\n   address = "Online",'
+        '\n   publisher = "Association for Computational Linguistics",'
+        '\n   url = "http://dx.doi.org/10.18653/v1/2021.eacl-main.165",'
+        '\n   pages = "1921--1945"'
         "\n}"
     ),
     homepage="https://github.com/LittlePea13/UsVsThem",
@@ -87,9 +92,7 @@ class UsVsThemProcessor(DatasetBase):
 
     metadata: typing.ClassVar[DatasetMetadata] = USVSTHEM_METADATA
 
-    def download_files(
-        self, downloads_dir: pathlib.Path
-    ) -> UsVsThemDownloadResult:
+    def download_files(self, downloads_dir: pathlib.Path) -> UsVsThemDownloadResult:
         downloads_subdir = downloads_dir / self.name
         os.makedirs(downloads_dir / self.name, exist_ok=True)
 
@@ -213,12 +216,6 @@ class UsVsThemProcessor(DatasetBase):
 
             logger.info("Processing - Finished saving HuggingFace dataset.")
 
-            shuffled_dataset = hf_dataset.shuffle()
-
-            logger.info(
-                f"Processing - Dataset sample: {json.dumps(obj=shuffled_dataset[0], sort_keys=True, indent=2)}"
-            )
-
         data_dir_summary = {
             "data": [],
         }
@@ -236,6 +233,12 @@ class UsVsThemProcessor(DatasetBase):
         update_bib_file(
             data_subdir=data_subdir,
             dataset_metadata=self.metadata,
+        )
+
+        update_samples(
+            data_subdir=data_subdir,
+            dataset_name=self.name,
+            storage_options=storage_options,
         )
 
         logger.info("Processing - Finished dataset processing.")

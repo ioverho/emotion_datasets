@@ -20,7 +20,7 @@ Homepage = "https://github.com/ioverho/emotion_datasets"
 
 [project.scripts]
 process_dataset = "emotion_datasets:process_dataset"
-print_manifest = "emotion_datasets:print_manifest"
+process_multiple_datasets = "emotion_datasets:process_multiple_datasets"
 
 [build-system]
 requires = ["hatchling"]

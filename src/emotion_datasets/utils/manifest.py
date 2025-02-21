@@ -11,7 +11,7 @@ def update_manifest(
     data_subdir: pathlib.Path,
     dataset_name: str,
     dataset_info: typing.Dict[str, typing.Any],
-):
+) -> None:
     data_dir = data_subdir.parent
 
     if (data_dir / "manifest.json").exists():

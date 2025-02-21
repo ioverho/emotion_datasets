@@ -28,7 +28,7 @@ class DatasetProcessingError(Exception):
     pass
 
 
-@dataclasses.dataclass
+@dataclasses.dataclass(frozen=True)
 class DatasetMetadata:
     description: str
     citation: str

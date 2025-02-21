@@ -19,4 +19,6 @@ from .usvsthem import UsVsThemProcessor  # noqa: F401
 from .wassa22 import WASSA22Processor  # noqa: F401
 from .xed import XEDProcessor  # noqa: F401
 
+from .debug import DebugProcessor  # noqa: F401
+
 __all__ = ["get_dataset"]

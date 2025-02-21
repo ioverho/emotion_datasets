@@ -1,4 +1,3 @@
-import json
 import shutil
 import typing
 import dataclasses
@@ -20,7 +19,13 @@ from emotion_datasets.dataset_processing.base import (
     DatasetProcessingError,
     DatasetMetadata,
 )
-from emotion_datasets.utils import download, get_file_stats, update_manifest, update_bib_file
+from emotion_datasets.utils import (
+    download,
+    get_file_stats,
+    update_manifest,
+    update_bib_file,
+    update_samples,
+)
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -98,7 +103,7 @@ class AffectiveTextProcessor(DatasetBase):
 
         logger.info(f"Download - Downloading zip file: {file_name}")
 
-        downloaded_file_path = downloads_dir / "affective_text.tar.gz"
+        downloaded_file_path = downloads_subdir / "affective_text.tar.gz"
 
         try:
             download(
@@ -236,12 +241,6 @@ class AffectiveTextProcessor(DatasetBase):
 
         logger.info("Processing - Finished saving HuggingFace dataset.")
 
-        shuffled_dataset = hf_dataset.shuffle()
-
-        logger.info(
-            f"Processing - Dataset sample: {json.dumps(obj=shuffled_dataset[0], sort_keys=True, indent=2)}"
-        )
-
         data_dir_summary = {
             "data": [],
         }
@@ -259,6 +258,12 @@ class AffectiveTextProcessor(DatasetBase):
         update_bib_file(
             data_subdir=data_subdir,
             dataset_metadata=self.metadata,
+        )
+
+        update_samples(
+            data_subdir=data_subdir,
+            dataset_name=self.name,
+            storage_options=storage_options,
         )
 
         logger.info("Processing - Finished dataset processing.")

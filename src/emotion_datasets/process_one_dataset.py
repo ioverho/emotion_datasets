@@ -11,29 +11,14 @@ import omegaconf
 
 from emotion_datasets.dataset_processing import get_dataset
 from emotion_datasets.dataset_processing.base import DATASET_REGISTRY
+from emotion_datasets.utils.config import ConfigBase
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 
-@dataclasses.dataclass
-class FileSystemConfig:
-    output_dir: str | pathlib.Path = "output"
-    log_dir: str | pathlib.Path = "${file_system.output_dir}/logs"
-    downloads_dir: str | pathlib.Path = "${file_system.output_dir}/downloads"
-    data_dir: str | pathlib.Path = "${file_system.output_dir}/data"
-
-
-@dataclasses.dataclass
-class HuggingFaceConfig:
-    max_shard_size: int | str = "500MB"
-    num_shards: typing.Optional[int] = None
-    num_proc: typing.Optional[int] = None
-    storage_options: dict = dataclasses.field(default_factory=lambda: {})
-
-
-@dataclasses.dataclass
-class Config:
+@dataclasses.dataclass(kw_only=True)
+class DatasetProcessingConfig(ConfigBase):
     dataset: typing.Any
 
     defaults: typing.List[typing.Any] = dataclasses.field(
@@ -42,18 +27,6 @@ class Config:
             {"dataset": None},
         ]
     )
-
-    file_system: FileSystemConfig = dataclasses.field(
-        default_factory=lambda: FileSystemConfig
-    )  # type: ignore
-
-    huggingface: HuggingFaceConfig = dataclasses.field(
-        default_factory=lambda: HuggingFaceConfig,
-    )  # type: ignore
-
-    overwrite: bool = False
-    print_config: bool = False
-    debug: bool = False
 
     hydra: typing.Any = dataclasses.field(
         default_factory=lambda: {
@@ -74,11 +47,11 @@ config_store = hydra.core.config_store.ConfigStore.instance()
 for dataset_name, dataset_class in DATASET_REGISTRY.items():
     config_store.store(group="dataset", name=dataset_name.lower(), node=dataset_class)
 
-config_store.store(name="process_dataset", node=Config)
+config_store.store(name="process_dataset", node=DatasetProcessingConfig)
 
 
 @hydra.main(version_base=None, config_name="process_dataset")
-def process_dataset(config: Config) -> None:
+def process_dataset(config: DatasetProcessingConfig) -> None:
     # ==========================================================================
     # Validation
     # ==========================================================================

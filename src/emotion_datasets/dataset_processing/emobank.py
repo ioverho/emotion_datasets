@@ -5,7 +5,6 @@ import logging
 import tempfile
 import typing
 import shutil
-import json
 
 import duckdb
 import datasets
@@ -17,7 +16,13 @@ from emotion_datasets.dataset_processing.base import (
     DownloadError,
     DatasetMetadata,
 )
-from emotion_datasets.utils import download, get_file_stats, update_manifest, update_bib_file
+from emotion_datasets.utils import (
+    download,
+    get_file_stats,
+    update_manifest,
+    update_bib_file,
+    update_samples,
+)
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -208,12 +213,6 @@ class EmoBankProcessor(DatasetBase):
 
             logger.info("Processing - Finished saving HuggingFace dataset.")
 
-            shuffled_dataset = hf_dataset.shuffle()
-
-            logger.info(
-                f"Processing - Dataset sample: {json.dumps(obj=shuffled_dataset[0], sort_keys=True, indent=2)}"
-            )
-
         data_dir_summary = {
             "data": [],
         }
@@ -231,6 +230,12 @@ class EmoBankProcessor(DatasetBase):
         update_bib_file(
             data_subdir=data_subdir,
             dataset_metadata=self.metadata,
+        )
+
+        update_samples(
+            data_subdir=data_subdir,
+            dataset_name=self.name,
+            storage_options=storage_options,
         )
 
         logger.info("Processing - Finished dataset processing.")
