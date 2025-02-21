@@ -17,7 +17,7 @@ from emotion_datasets.dataset_processing.base import (
     DownloadError,
     DatasetMetadata,
 )
-from emotion_datasets.utils import download, get_file_stats, update_manifest
+from emotion_datasets.utils import download, get_file_stats, update_manifest, update_bib_file
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -25,16 +25,16 @@ logger.setLevel(logging.INFO)
 ISEAR_METADATA = DatasetMetadata(
     description="The International Survey On Emotion Antecedents And Reactions (ISEAR) dataset, as processed using 'emotion_datasets'. Over a period of many years during the 1990s, a large group of psychologists all over the world collected data in the ISEAR project. Student respondents, both psychologists and non-psychologists, were asked to report situations in which they had experienced all of 7 major emotions. The final data set thus contained reports on seven emotions each by close to 3000 respondents in 37 countries on all 5 continents.",
     citation=(
-        "@article{scherer1994evidence,"
-        "    title={Evidence for universality and cultural variation of differential emotion response patterning.},"
-        "    author={Scherer, Klaus R and Wallbott, Harald G},"
-        "    journal={Journal of personality and social psychology},"
-        "    volume={66},"
-        "    number={2},"
-        "    pages={310},"
-        "    year={1994},"
-        "    publisher={American Psychological Association}"
-        "}"
+        "@article{emotion_dataset_isear,"
+        "\n    title={Evidence for universality and cultural variation of differential emotion response patterning.},"
+        "\n    author={Scherer, Klaus R and Wallbott, Harald G},"
+        "\n    journal={Journal of personality and social psychology},"
+        "\n    volume={66},"
+        "\n    number={2},"
+        "\n    pages={310},"
+        "\n    year={1994},"
+        "\n    publisher={American Psychological Association}"
+        "\n}"
     ),
     homepage="https://www.unige.ch/cisa/research/materials-and-online-research/research-material/",
     license="CC BY-NC-SA 3.0",
@@ -237,6 +237,11 @@ class ISEARProcessor(DatasetBase):
             data_subdir=data_subdir,
             dataset_name=self.name,
             dataset_info=data_dir_summary,
+        )
+
+        update_bib_file(
+            data_subdir=data_subdir,
+            dataset_metadata=self.metadata,
         )
 
         logger.info("Processing - Finished dataset processing.")

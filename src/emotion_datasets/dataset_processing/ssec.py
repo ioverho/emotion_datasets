@@ -18,7 +18,7 @@ from emotion_datasets.dataset_processing.base import (
     DownloadError,
     DatasetMetadata,
 )
-from emotion_datasets.utils import download, get_file_stats, update_manifest
+from emotion_datasets.utils import download, get_file_stats, update_manifest, update_bib_file
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -26,13 +26,13 @@ logger.setLevel(logging.INFO)
 SSEC_METADATA = DatasetMetadata(
     description="The Stance Sentiment Emotion Corpus (SSEC) dataset, as processed using 'emotion_datasets'. The SSEC corpus is an annotation of the SemEval 2016 Twitter stance and sentiment corpus with emotion labels.",
     citation=(
-        "@inproceedings{schuff2017annotation,"
-        "    title={Annotation, modelling and analysis of fine-grained emotions on a stance and sentiment detection corpus},"
-        "    author={Schuff, Hendrik and Barnes, Jeremy and Mohme, Julian and Pad{'o}, Sebastian and Klinger, Roman},"
-        "    booktitle={Proceedings of the 8th workshop on computational approaches to subjectivity, sentiment and social media analysis},"
-        "    pages={13--23},"
-        "    year={2017},"
-        "}"
+        "@inproceedings{emotion_dataset_ssec,"
+        "\n    title={Annotation, modelling and analysis of fine-grained emotions on a stance and sentiment detection corpus},"
+        "\n    author={Schuff, Hendrik and Barnes, Jeremy and Mohme, Julian and Pad{'o}, Sebastian and Klinger, Roman},"
+        "\n    booktitle={Proceedings of the 8th workshop on computational approaches to subjectivity, sentiment and social media analysis},"
+        "\n    pages={13--23},"
+        "\n    year={2017},"
+        "\n}"
     ),
     homepage="https://www.romanklinger.de/ssec/",
     license="",
@@ -243,6 +243,11 @@ class SSECProcessor(DatasetBase):
             data_subdir=data_subdir,
             dataset_name=self.name,
             dataset_info=data_dir_summary,
+        )
+
+        update_bib_file(
+            data_subdir=data_subdir,
+            dataset_metadata=self.metadata,
         )
 
         logger.info("Processing - Finished dataset processing.")

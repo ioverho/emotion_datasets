@@ -19,7 +19,7 @@ from emotion_datasets.dataset_processing.base import (
     DownloadError,
     DatasetMetadata,
 )
-from emotion_datasets.utils import get_file_stats, update_manifest
+from emotion_datasets.utils import get_file_stats, update_manifest, update_bib_file
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -27,13 +27,13 @@ logger.setLevel(logging.INFO)
 WASSA22_METADATA = DatasetMetadata(
     description="The WASSA 2022 Shared Task dataset, as processed by 'emotion_datasets'. This task aims at developing models which can predict empathy and emotion based on essays written in reaction to news articles where there is harm to a person, group, or other.",
     citation=(
-        "@inproceedings{barriere2022wassa,"
-        "  title={WASSA 2022 shared task: Predicting empathy, emotion and personality in reaction to news stories},"
-        "  author={Barriere, Valentin and Tafreshi, Shabnam and Sedoc, Jo{\\~a}o and Alqahtani, Sawsan},"
-        "  booktitle={Proceedings of the 12th Workshop on Computational Approaches to Subjectivity, Sentiment \\& Social Media Analysis},"
-        "  pages={214--227},"
-        "  year={2022}"
-        "}"
+        "@inproceedings{emotion_dataset_wassa2022,"
+        "\n  title={WASSA 2022 shared task: Predicting empathy, emotion and personality in reaction to news stories},"
+        "\n  author={Barriere, Valentin and Tafreshi, Shabnam and Sedoc, Jo{\\~a}o and Alqahtani, Sawsan},"
+        "\n  booktitle={Proceedings of the 12th Workshop on Computational Approaches to Subjectivity, Sentiment \\& Social Media Analysis},"
+        "\n  pages={214--227},"
+        "\n  year={2022}"
+        "\n}"
     ),
     homepage="https://codalab.lisn.upsaclay.fr/competitions/834#learn_the_details-overview",
     license="",
@@ -314,6 +314,11 @@ class WASSA22Processor(DatasetBase):
             data_subdir=data_subdir,
             dataset_name=self.name,
             dataset_info=data_dir_summary,
+        )
+
+        update_bib_file(
+            data_subdir=data_subdir,
+            dataset_metadata=self.metadata,
         )
 
         logger.info("Processing - Finished dataset processing.")

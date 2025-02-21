@@ -17,7 +17,7 @@ from emotion_datasets.dataset_processing.base import (
     ProcessingResult,
     DatasetMetadata,
 )
-from emotion_datasets.utils import get_file_stats, update_manifest
+from emotion_datasets.utils import get_file_stats, update_manifest, update_bib_file
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -26,16 +26,16 @@ logger.setLevel(logging.INFO)
 REN20K_METADATA = DatasetMetadata(
     description="The REN-20k dataset, as processed using 'emotion_datasets'. The Readers' Emotion News (REN) dataset is procured rom the popular online news network Rappler, where news articles were manually collected, from the year span 2014 to 2019, by checking articles with high emotion votings in the Mood Meter widget of Rappler indicating high popularity and social reach of these article.",
     citation=(
-        "@article{kadan2024redaffectivelm,"
-        "    title={REDAffectiveLM: leveraging affect enriched embedding and transformer-based neural language model for readers’ emotion detection},"
-        "    author={Kadan, Anoop and Deepak, P and Gangan, Manjary P and Abraham, Sam Savitha and Lajish, VL},"
-        "    journal={Knowledge and Information Systems},"
-        "    volume={66},"
-        "    number={12},"
-        "    pages={7495--7525},"
-        "    year={2024},"
-        "    publisher={Springer}"
-        "}"
+        "@article{emotion_dataset_ren20k,"
+        "\n    title={REDAffectiveLM: leveraging affect enriched embedding and transformer-based neural language model for readers’ emotion detection},"
+        "\n    author={Kadan, Anoop and Deepak, P and Gangan, Manjary P and Abraham, Sam Savitha and Lajish, VL},"
+        "\n    journal={Knowledge and Information Systems},"
+        "\n    volume={66},"
+        "\n    number={12},"
+        "\n    pages={7495--7525},"
+        "\n    year={2024},"
+        "\n    publisher={Springer}"
+        "\n}"
     ),
     homepage="https://dcs.uoc.ac.in/cida/resources/ren-20k.html",
     license="CC-BY-NC",
@@ -273,6 +273,11 @@ class REN20kProcessor(DatasetBase):
             data_subdir=data_subdir,
             dataset_name=self.name,
             dataset_info=data_dir_summary,
+        )
+
+        update_bib_file(
+            data_subdir=data_subdir,
+            dataset_metadata=self.metadata,
         )
 
         logger.info("Processing - Finished dataset processing.")

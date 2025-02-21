@@ -14,7 +14,7 @@ from emotion_datasets.dataset_processing.base import (
     ProcessingResult,
     DatasetMetadata,
 )
-from emotion_datasets.utils import get_file_stats, update_manifest
+from emotion_datasets.utils import get_file_stats, update_manifest, update_bib_file
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -23,21 +23,21 @@ logger.setLevel(logging.INFO)
 CARER_METADATA = DatasetMetadata(
     description="The CARER dataset, as processed using 'emotion_datasets'. CARER is a dataset of English Twitter messages with six basic emotions: anger, fear, joy, love, sadness, and surprise.",
     citation=(
-        "@inproceedings{saravia-etal-2018-carer,"
-        "title = '{CARER}: Contextualized Affect Representations for Emotion Recognition',"
-        "author = 'Saravia, Elvis  and"
-        "Liu, Hsien-Chi Toby  and"
-        "Huang, Yen-Hao  and"
-        "Wu, Junlin  and"
-        "Chen, Yi-Shin',"
-        "booktitle = 'Proceedings of the 2018 Conference on Empirical Methods in Natural Language Processing',"
-        "month = oct # '-' # nov,"
-        "year = '2018',"
-        "address = 'Brussels, Belgium',"
-        "publisher = 'Association for Computational Linguistics',"
-        "url = 'https://www.aclweb.org/anthology/D18-1404',"
-        "doi = '10.18653/v1/D18-1404',"
-        "pages = '3687--3697',"
+        "@inproceedings{emotion_dataset_carer,"
+        "\n title = '{CARER}: Contextualized Affect Representations for Emotion Recognition',"
+        "\n author = 'Saravia, Elvis  and"
+        "\n Liu, Hsien-Chi Toby  and"
+        "\n Huang, Yen-Hao  and"
+        "\n Wu, Junlin  and"
+        "\n Chen, Yi-Shin',"
+        "\n booktitle = 'Proceedings of the 2018 Conference on Empirical Methods in Natural Language Processing',"
+        "\n month = oct # '-' # nov,"
+        "\n year = '2018',"
+        "\n address = 'Brussels, Belgium',"
+        "\n publisher = 'Association for Computational Linguistics',"
+        "\n url = 'https://www.aclweb.org/anthology/D18-1404',"
+        "\n doi = '10.18653/v1/D18-1404',"
+        "\n pages = '3687--3697',"
         "}"
     ),
     homepage="https://github.com/dair-ai/emotion_dataset",
@@ -152,6 +152,11 @@ class CARERProcessor(DatasetBase):
             data_subdir=data_subdir,
             dataset_name=self.name,
             dataset_info=data_dir_summary,
+        )
+
+        update_bib_file(
+            data_subdir=data_subdir,
+            dataset_metadata=self.metadata,
         )
 
         logger.info("Processing - Finished dataset processing.")

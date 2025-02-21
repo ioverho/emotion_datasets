@@ -17,7 +17,7 @@ from emotion_datasets.dataset_processing.base import (
     DownloadError,
     DatasetMetadata,
 )
-from emotion_datasets.utils import download, get_file_stats, update_manifest
+from emotion_datasets.utils import download, get_file_stats, update_manifest, update_bib_file
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -26,12 +26,12 @@ logger.setLevel(logging.INFO)
 EMOINT_METADATA = DatasetMetadata(
     description="The WASSA-2017 Shared Task on Emotion Intensity (EmoInt) dataset, as processed using 'emotion_datasets'. Unlike other emotion datasets, texts in this dataset are annotated not just for the dominant emotion, but for their intensity as well.",
     citation=(
-        "@article{mohammad2017wassa,"
-        "  title={WASSA-2017 shared task on emotion intensity},"
-        "  author={Mohammad, Saif M and Bravo-Marquez, Felipe},"
-        "  journal={arXiv preprint arXiv:1708.03700},"
-        "  year={2017}"
-        "}"
+        "@article{emotion_dataset_emoint,"
+        "\n  title={WASSA-2017 shared task on emotion intensity},"
+        "\n  author={Mohammad, Saif M and Bravo-Marquez, Felipe},"
+        "\n  journal={arXiv preprint arXiv:1708.03700},"
+        "\n  year={2017}"
+        "\n}"
     ),
     homepage="http://saifmohammad.com/WebPages/EmotionIntensity-SharedTask.html",
     license="",
@@ -259,6 +259,11 @@ class EmoIntProcessor(DatasetBase):
             data_subdir=data_subdir,
             dataset_name=self.name,
             dataset_info=data_dir_summary,
+        )
+
+        update_bib_file(
+            data_subdir=data_subdir,
+            dataset_metadata=self.metadata,
         )
 
         logger.info("Processing - Finished dataset processing.")

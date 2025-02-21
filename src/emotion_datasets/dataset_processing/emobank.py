@@ -17,7 +17,7 @@ from emotion_datasets.dataset_processing.base import (
     DownloadError,
     DatasetMetadata,
 )
-from emotion_datasets.utils import download, get_file_stats, update_manifest
+from emotion_datasets.utils import download, get_file_stats, update_manifest, update_bib_file
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -25,12 +25,12 @@ logger.setLevel(logging.INFO)
 EMOBANK_METADATA = DatasetMetadata(
     description="The EmoBank dataset, as processed using 'emotion_datasets'. EmoBank is a large-scale text corpus manually annotated with emotion according to the psychological Valence-Arousal-Dominance scheme. It was build at JULIE Lab, Jena University and is described in detail in papers from EACL 2017 and LAW 2017.",
     citation=(
-        "@article{buechel2022emobank,"
-        "   title={Emobank: Studying the impact of annotation perspective and representation format on dimensional emotion analysis},"
-        "   author={Buechel, Sven and Hahn, Udo},"
-        "   journal={arXiv preprint arXiv:2205.01996},"
-        "   year={2022}"
-        "}"
+        "@article{emotion_dataset_emobank,"
+        "\n   title={Emobank: Studying the impact of annotation perspective and representation format on dimensional emotion analysis},"
+        "\n   author={Buechel, Sven and Hahn, Udo},"
+        "\n   journal={arXiv preprint arXiv:2205.01996},"
+        "\n   year={2022}"
+        "\n}"
     ),
     homepage="https://github.com/JULIELab/EmoBank/tree/master",
     license="CC-BY-SA 4.0",
@@ -226,6 +226,11 @@ class EmoBankProcessor(DatasetBase):
             data_subdir=data_subdir,
             dataset_name=self.name,
             dataset_info=data_dir_summary,
+        )
+
+        update_bib_file(
+            data_subdir=data_subdir,
+            dataset_metadata=self.metadata,
         )
 
         logger.info("Processing - Finished dataset processing.")

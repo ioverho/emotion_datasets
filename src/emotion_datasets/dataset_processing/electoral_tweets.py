@@ -18,7 +18,7 @@ from emotion_datasets.dataset_processing.base import (
     DownloadError,
     DatasetMetadata,
 )
-from emotion_datasets.utils import download, get_file_stats, update_manifest
+from emotion_datasets.utils import download, get_file_stats, update_manifest, update_bib_file
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -26,16 +26,16 @@ logger.setLevel(logging.INFO)
 ELECTORALTWEETS_METADATA = DatasetMetadata(
     description="The Electoral Tweets dataset, as processed by 'emotion_datasets'. A set of 2012 US presidential election tweets annotated for a number of attributes pertaining to sentiment, emotion, purpose, and style by crowdsourcing.",
     citation=(
-        "@article{mohammad2015sentiment,"
-        "  title={Sentiment, emotion, purpose, and style in electoral tweets},"
-        "  author={Mohammad, Saif M and Zhu, Xiaodan and Kiritchenko, Svetlana and Martin, Joel},"
-        "  journal={Information Processing \\& Management},"
-        "  volume={51},"
-        "  number={4},"
-        "  pages={480--499},"
-        "  year={2015},"
-        "  publisher={Elsevier}"
-        "}"
+        "@article{emotion_dataset_electoral_tweets,"
+        "\n  title={Sentiment, emotion, purpose, and style in electoral tweets},"
+        "\n  author={Mohammad, Saif M and Zhu, Xiaodan and Kiritchenko, Svetlana and Martin, Joel},"
+        "\n  journal={Information Processing \\& Management},"
+        "\n  volume={51},"
+        "\n  number={4},"
+        "\n  pages={480--499},"
+        "\n  year={2015},"
+        "\n  publisher={Elsevier}"
+        "\n}"
     ),
     homepage="http://saifmohammad.com/WebPages/SentimentEmotionLabeledData.html",
     license="",
@@ -377,6 +377,11 @@ class ElectoralTweetsProcessor(DatasetBase):
             data_subdir=data_subdir,
             dataset_name=self.name,
             dataset_info=data_dir_summary,
+        )
+
+        update_bib_file(
+            data_subdir=data_subdir,
+            dataset_metadata=self.metadata,
         )
 
         logger.info("Processing - Finished dataset processing.")

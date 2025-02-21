@@ -20,7 +20,7 @@ from emotion_datasets.dataset_processing.base import (
     DatasetProcessingError,
     DatasetMetadata,
 )
-from emotion_datasets.utils import download, get_file_stats, update_manifest
+from emotion_datasets.utils import download, get_file_stats, update_manifest, update_bib_file
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -28,19 +28,19 @@ logger.setLevel(logging.INFO)
 AFFECTIVE_TEXT_METADATA = DatasetMetadata(
     description="The SeMEval-2007 Task 14: Affective Text dataset, as processed by 'emotion_datasets'. Affective Text is a data set consisting of 1000 test headlines and 200 development headlines, each of them annotated with the six Eckman emotions and the polarity orientation.",
     citation=(
-        "@inproceedings{10.5555/1621474.1621487,"
-        "   author = {Strapparava, Carlo and Mihalcea, Rada},"
-        "   title = {SemEval-2007 task 14: affective text},"
-        "   year = {2007},"
-        "   publisher = {Association for Computational Linguistics},"
-        "   address = {USA},"
-        "   abstract = {The 'Affective Text' task focuses on the classification of emotions and valence (positive/negative polarity) in news headlines, and is meant as an exploration of the connection between emotions and lexical semantics. In this paper, we describe the data set used in the evaluation and the results obtained by the participating systems.},"
-        "   booktitle = {Proceedings of the 4th International Workshop on Semantic Evaluations},"
-        "   pages = {70–74},"
-        "   numpages = {5},"
-        "   location = {Prague, Czech Republic},"
-        "   series = {SemEval '07}"
-        "   }"
+        "@inproceedings{emotion_dataset_affective_text,"
+        "\n   author = {Strapparava, Carlo and Mihalcea, Rada},"
+        "\n   title = {SemEval-2007 task 14: affective text},"
+        "\n   year = {2007},"
+        "\n   publisher = {Association for Computational Linguistics},"
+        "\n   address = {USA},"
+        "\n   abstract = {The 'Affective Text' task focuses on the classification of emotions and valence (positive/negative polarity) in news headlines, and is meant as an exploration of the connection between emotions and lexical semantics. In this paper, we describe the data set used in the evaluation and the results obtained by the participating systems.},"
+        "\n   booktitle = {Proceedings of the 4th International Workshop on Semantic Evaluations},"
+        "\n   pages = {70–74},"
+        "\n   numpages = {5},"
+        "\n   location = {Prague, Czech Republic},"
+        "\n   series = {SemEval '07}"
+        "\n}"
     ),
     homepage="https://web.eecs.umich.edu/~mihalcea/downloads.html#affective",
     license="",
@@ -254,6 +254,11 @@ class AffectiveTextProcessor(DatasetBase):
             data_subdir=data_subdir,
             dataset_name=self.name,
             dataset_info=data_dir_summary,
+        )
+
+        update_bib_file(
+            data_subdir=data_subdir,
+            dataset_metadata=self.metadata,
         )
 
         logger.info("Processing - Finished dataset processing.")

@@ -18,7 +18,7 @@ from emotion_datasets.dataset_processing.base import (
     DownloadError,
     DatasetMetadata,
 )
-from emotion_datasets.utils import download, get_file_stats, update_manifest
+from emotion_datasets.utils import download, get_file_stats, update_manifest, update_bib_file
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -26,13 +26,13 @@ logger.setLevel(logging.INFO)
 FB_VALENCE_AROUSAL_METADATA = DatasetMetadata(
     description="The Facebook Valence Arousal dataset, as processed using 'emotion_datasets'. A data set of 2895 Social Media posts rated by two psychologically-trained annotators on two separate ordinal (valence or sentiment, and arousal or intensity) nine-point scales.",
     citation=(
-        "@inproceedings{preoctiuc2016modelling,"
-        "    title={Modelling valence and arousal in facebook posts},"
-        "    author={Preo{\\c{t}}iuc-Pietro, Daniel and Schwartz, H Andrew and Park, Gregory and Eichstaedt, Johannes and Kern, Margaret and Ungar, Lyle and Shulman, Elisabeth},"
-        "    booktitle={Proceedings of the 7th Workshop on Computational Approaches to Subjectivity, Sentiment and Social Media Analysis},"
-        "    pages={9--15},"
-        "    year={2016}"
-        "}"
+        "@inproceedings{emotion_dataset_fb_valence_arousal,"
+        "\n    title={Modelling valence and arousal in facebook posts},"
+        "\n    author={Preo{\\c{t}}iuc-Pietro, Daniel and Schwartz, H Andrew and Park, Gregory and Eichstaedt, Johannes and Kern, Margaret and Ungar, Lyle and Shulman, Elisabeth},"
+        "\n    booktitle={Proceedings of the 7th Workshop on Computational Approaches to Subjectivity, Sentiment and Social Media Analysis},"
+        "\n    pages={9--15},"
+        "\n    year={2016}"
+        "\n}"
     ),
     homepage="https://github.com/wwbp/additional_data_sets/tree/master/valence_arousal",
     license="GPLv3",
@@ -203,6 +203,11 @@ class FBValenceArousalProcessor(DatasetBase):
             data_subdir=data_subdir,
             dataset_name=self.name,
             dataset_info=data_dir_summary,
+        )
+
+        update_bib_file(
+            data_subdir=data_subdir,
+            dataset_metadata=self.metadata,
         )
 
         logger.info("Processing - Finished dataset processing.")

@@ -17,7 +17,7 @@ from emotion_datasets.dataset_processing.base import (
     DownloadError,
     DatasetMetadata,
 )
-from emotion_datasets.utils import download, get_file_stats, update_manifest
+from emotion_datasets.utils import download, get_file_stats, update_manifest, update_bib_file
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -25,14 +25,14 @@ logger.setLevel(logging.INFO)
 SENTIMENTAL_LIAR_METADATA = DatasetMetadata(
     description="The Sentimental LIAR dataset, as processed using 'emotion_datasets'. Sentimental LIAR is a modified and further extended version of the LIAR extension introduced by Kirilin et al. Sentiments are derived using the Google NLP API, whereas emotion scores were extracted using the IBM NLP API for each claim, which determine the detected level of 6 emotional states namely anger, sadness, disgust, fear and joy.",
     citation=(
-        "@inproceedings{upadhayay2020sentimental,"
-        "    title={Sentimental LIAR: Extended Corpus and Deep Learning Models for Fake Claim Classification},"
-        "    author={Upadhayay, Bibek and Behzadan, Vahid},"
-        "    booktitle={2020 IEEE International Conference on Intelligence and Security Informatics (ISI)},"
-        "    pages={1--6},"
-        "    year={2020},"
-        "    organization={IEEE}"
-        "}"
+        "@inproceedings{emotion_dataset_sentimental_liar,"
+        "\n    title={Sentimental LIAR: Extended Corpus and Deep Learning Models for Fake Claim Classification},"
+        "\n    author={Upadhayay, Bibek and Behzadan, Vahid},"
+        "\n    booktitle={2020 IEEE International Conference on Intelligence and Security Informatics (ISI)},"
+        "\n    pages={1--6},"
+        "\n    year={2020},"
+        "\n    organization={IEEE}"
+        "\n}"
     ),
     homepage="https://github.com/UNHSAILLab/SentimentalLIAR",
     license="",
@@ -209,6 +209,11 @@ class SentimentalLIARProcessor(DatasetBase):
             data_subdir=data_subdir,
             dataset_name=self.name,
             dataset_info=data_dir_summary,
+        )
+
+        update_bib_file(
+            data_subdir=data_subdir,
+            dataset_metadata=self.metadata,
         )
 
         logger.info("Processing - Finished dataset processing.")

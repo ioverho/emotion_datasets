@@ -17,7 +17,7 @@ from emotion_datasets.dataset_processing.base import (
     DownloadError,
     DatasetMetadata,
 )
-from emotion_datasets.utils import download, get_file_stats, update_manifest
+from emotion_datasets.utils import download, get_file_stats, update_manifest, update_bib_file
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -26,12 +26,12 @@ logger.setLevel(logging.INFO)
 GOEMOTIONS_METADATA = DatasetMetadata(
     description="The GoEmotions dataset, as processed using 'emotion_datasets'. GoEmotions is a corpus of 58k carefully curated comments extracted from Reddit, with human annotations to 27 emotion categories or Neutral.",
     citation=(
-        "@inproceedings{demszky2020goemotions,"
-        "   author = {Demszky, Dorottya and Movshovitz-Attias, Dana and Ko, Jeongwoo and Cowen, Alan and Nemade, Gaurav and Ravi, Sujith},"
-        "   booktitle = {58th Annual Meeting of the Association for Computational Linguistics (ACL)},"
-        "   title = {{GoEmotions: A Dataset of Fine-Grained Emotions}},"
-        "   year = {2020}"
-        "}"
+        "@inproceedings{emotion_dataset_go_emotions,"
+        "\n   author = {Demszky, Dorottya and Movshovitz-Attias, Dana and Ko, Jeongwoo and Cowen, Alan and Nemade, Gaurav and Ravi, Sujith},"
+        "\n   booktitle = {58th Annual Meeting of the Association for Computational Linguistics (ACL)},"
+        "\n   title = {{GoEmotions: A Dataset of Fine-Grained Emotions}},"
+        "\n   year = {2020}"
+        "\n}"
     ),
     homepage="https://github.com/google-research/google-research/tree/master/goemotions",
     license="",
@@ -319,6 +319,11 @@ class GoEmotionsProcessor(DatasetBase):
             data_subdir=data_subdir,
             dataset_name=self.name,
             dataset_info=data_dir_summary,
+        )
+
+        update_bib_file(
+            data_subdir=data_subdir,
+            dataset_metadata=self.metadata,
         )
 
         logger.info("Processing - Finished dataset processing.")

@@ -16,7 +16,7 @@ from emotion_datasets.dataset_processing.base import (
     ProcessingResult,
     DatasetMetadata,
 )
-from emotion_datasets.utils import download, get_file_stats, update_manifest
+from emotion_datasets.utils import download, get_file_stats, update_manifest, update_bib_file
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -24,12 +24,12 @@ logger.setLevel(logging.INFO)
 XED_METADATA = DatasetMetadata(
     description="The XED dataset, as processed by 'emotion_datasets'. The dataset consists of emotion annotated movie subtitles from OPUS. Plutchik's 8 core emotions were used to annotate. The data is multilabel. The original annotations have been sourced for mainly English and Finnish. This is the English-only subset.",
     citation=(
-        "@article{ohman2020xed,"
-        "  title={XED: A multilingual dataset for sentiment analysis and emotion detection},"
-        '  author={{"O}hman, Emily and P{\'a}mies, Marc and Kajava, Kaisla and Tiedemann, J{"o}rg},'
-        "  journal={arXiv preprint arXiv:2011.01612},"
-        "  year={2020}"
-        "}"
+        "@article{emotion_dataset_xed,"
+        "\n  title={XED: A multilingual dataset for sentiment analysis and emotion detection},"
+        '\n  author={{"O}hman, Emily and P{\'a}mies, Marc and Kajava, Kaisla and Tiedemann, J{"o}rg},'
+        "\n  journal={arXiv preprint arXiv:2011.01612},"
+        "\n  year={2020}"
+        "\n}"
     ),
     homepage="https://github.com/Helsinki-NLP/XED/tree/master",
     license="",
@@ -229,6 +229,11 @@ class XEDProcessor(DatasetBase):
             data_subdir=data_subdir,
             dataset_name=self.name,
             dataset_info=data_dir_summary,
+        )
+
+        update_bib_file(
+            data_subdir=data_subdir,
+            dataset_metadata=self.metadata,
         )
 
         logger.info("Processing - Finished dataset processing.")

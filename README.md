@@ -57,7 +57,7 @@ Here you should replace `${DATASET}` with a dataset name. See the table above fo
 
 This should return a `DatasetMetadata` object that contains a description, citation and licensing information, a list of all emotion columns, and metadata on how the emotion annotations were conducted.
 
-### Manually Processing a Dataset
+### Manually Processing a Single Dataset
 
 To process a single datasetr, using `uv`, run:
 ```sh
@@ -79,6 +79,8 @@ Running the script for any dataset should output a directory with the following 
 /data/
     ├── ${DATASET}
     │   processed data along with metadata files
+    ├── citations.bib
+    │   a bib file with the citations for each dataset
     └── manifest.json
         a summary of which files can be found where
 /downloads/
@@ -98,7 +100,7 @@ All datasets are stored as HuggingFace datasets compatible directories. This imp
 If you use this repo, please make sure to cite the datasets you parsed. Also, please cite this repo.
 
 ```bibtex
-@software{Verhoeven_emotion_datasets,
+@software{ioverho_emotion_datasets,
     author = {Verhoeven, Ivo},
     license = {CC-BY-4.0},
     title = {{emotion\_datasets}},
