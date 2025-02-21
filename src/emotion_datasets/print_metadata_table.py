@@ -16,6 +16,7 @@ DATASET_SIZES = {
     "SentimentalLIAR": "13k",
     "SSEC": "4.8k",
     "TalesEmotions": "15k",
+    "UsVsThem": "6.8k",
     "WASSA22": "2.1k",
     "XED": "27k",
 }
