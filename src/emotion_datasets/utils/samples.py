@@ -26,20 +26,17 @@ def update_samples(
         logger.debug("Samples - Samples file does not yet exist")
         samples = dict()
 
-    if dataset_name not in samples:
-        hf_dataset = datasets.Dataset.load_from_disk(
-            dataset_path=data_subdir,
-            keep_in_memory=False,
-            storage_options=storage_options,
-        )
+    hf_dataset = datasets.Dataset.load_from_disk(
+        dataset_path=data_subdir,
+        keep_in_memory=False,
+        storage_options=storage_options,
+    )
 
-        shuffled_dataset = hf_dataset.shuffle()
+    shuffled_dataset = hf_dataset.shuffle()
 
-        sample = shuffled_dataset[0]
+    sample = shuffled_dataset[0]
 
-        samples[dataset_name] = sample
-    else:
-        sample = samples[dataset_name]
+    samples[dataset_name] = sample
 
     with open(data_dir / "samples.json", "w") as f:
         json.dump(obj=samples, fp=f, indent=2, sort_keys=True)

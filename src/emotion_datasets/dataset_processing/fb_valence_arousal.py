@@ -138,21 +138,21 @@ class FBValenceArousalProcessor(DatasetBase):
                 CREATE TABLE temp
                 AS
                     SELECT
-                        'Anonymized Message' AS text,
-                        Valence1 AS valence_1,
-                        Valence2 AS valence_2,
-                        Arousal1 AS arousal_1,
-                        Arousal2 AS arousal_2
+                        \"Anonymized Message\" AS text,
+                        (Valence1 - 5) / 4 AS valence_1,
+                        (Valence2 - 5) / 4 AS valence_2,
+                        (Arousal1 - 5) / 4 AS arousal_1,
+                        (Arousal2 - 5) / 4 AS arousal_2
                     FROM (
                         SELECT *
                         FROM read_csv('{str(download_result.data_file_path)}',
                             header = true,
                             columns = {{
-                                'Anonymized Message': 'VARCHAR',
-                                'Valence1': 'UINTEGER',
-                                'Valence2': 'UINTEGER',
-                                'Arousal1': 'UINTEGER',
-                                'Arousal2': 'UINTEGER'
+                                "Anonymized Message": 'VARCHAR',
+                                'Valence1': 'FLOAT',
+                                'Valence2': 'FLOAT',
+                                'Arousal1': 'FLOAT',
+                                'Arousal2': 'FLOAT'
                             }})
                     )
                 """
