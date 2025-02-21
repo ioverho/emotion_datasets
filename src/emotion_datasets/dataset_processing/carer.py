@@ -42,7 +42,7 @@ CARER_METADATA = DatasetMetadata(
         "\n url = 'https://www.aclweb.org/anthology/D18-1404',"
         "\n doi = '10.18653/v1/D18-1404',"
         "\n pages = '3687--3697',"
-        "}"
+        "\n}"
     ),
     homepage="https://github.com/dair-ai/emotion_dataset",
     license="The dataset should be used for educational and research purposes only.",
@@ -73,6 +73,17 @@ class CARERProcessor(DatasetBase):
     hf_repo: str = "dair-ai/emotion"
     hf_config_name: str = "split"
     hf_splits: str = "train+validation+test"
+
+    label_map: typing.Dict[int, str] = dataclasses.field(
+        default_factory=lambda: {
+            0: "sadness",
+            1: "joy",
+            2: "love",
+            3: "anger",
+            4: "fear",
+            5: "surprise",
+        }
+    )
 
     metadata: typing.ClassVar[DatasetMetadata] = CARER_METADATA
 
@@ -120,15 +131,34 @@ class CARERProcessor(DatasetBase):
             keep_in_memory=False,
         )  # type: ignore
 
+        def map_label_to_emotions(row: dict):
+            emotions = {
+                "sadness": False,
+                "joy": False,
+                "love": False,
+                "anger": False,
+                "fear": False,
+                "surprise": False,
+            }
+
+            emotion = self.label_map[row["label"]]
+
+            emotions[emotion] = True
+
+            return {**row, **emotions}
+
+        mapped_dataset = hf_dataset.map(map_label_to_emotions)
+        mapped_dataset = mapped_dataset.remove_columns(["label"])
+
         logger.info(f"Processing - Saving HuggingFace dataset: {data_subdir}")
 
-        hf_dataset.info.dataset_name = self.name
-        hf_dataset.info.description = self.metadata.description
-        hf_dataset.info.citation = self.metadata.citation
-        hf_dataset.info.homepage = self.metadata.homepage
-        hf_dataset.info.license = self.metadata.license
+        mapped_dataset.info.dataset_name = self.name
+        mapped_dataset.info.description = self.metadata.description
+        mapped_dataset.info.citation = self.metadata.citation
+        mapped_dataset.info.homepage = self.metadata.homepage
+        mapped_dataset.info.license = self.metadata.license
 
-        hf_dataset.save_to_disk(
+        mapped_dataset.save_to_disk(
             dataset_path=str(data_subdir),
             max_shard_size=max_shard_size,
             num_shards=num_shards,

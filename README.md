@@ -14,7 +14,7 @@ Currently implemented datasets:
 | [EmoBank](https://github.com/JULIELab/EmoBank/tree/master)                                   | Valence-Arousal-Dominance                                                   | 3      |            | ✓          | 10k  | Varied                                            |
 | [EmoInt](http://saifmohammad.com/WebPages/EmotionIntensity-SharedTask.html)                  | Subset of common emotions anotated using best-worst scaling                 | 4      | ✓          | ✓          | 6.9k | Twitter posts                                     |
 | [FBValenceArousal](https://github.com/wwbp/additional_data_sets/tree/master/valence_arousal) | Valence Arousal                                                             | 2      |            | ✓          | 2.9k | Facebook posts                                    |
-| [GoEmotions](https://github.com/google-research/google-research/tree/master/goemotions)      | Custom hierarchical emotion system                                          | 28     |            |            | 58k  | Reddit posts                                      |
+| [GoEmotions](https://github.com/google-research/google-research/tree/master/goemotions)      | Custom hierarchical emotion system                                          | 28     | ✓          |            | 58k  | Reddit posts                                      |
 | [ISEAR](https://www.unige.ch/cisa/research/materials-and-online-research/research-material/) | Situations in which a subject experienced one of 7 major emotions           | 7      |            |            | 7.6k | Situation descriptions                            |
 | [REN20k](https://dcs.uoc.ac.in/cida/resources/ren-20k.html)[1]                               | Evoked emoions annotated by many readers                                    | 8      | ✓          | ✓          | 20k  | News articles                                     |
 | [SentimentalLIAR](https://github.com/UNHSAILLab/SentimentalLIAR)                             | Automated emotion annotation using Google and IBM NLP APIs                  | 6      | ✓          | ✓          | 13k  | Short snippets from politicians and famous people |
@@ -149,10 +149,11 @@ If you use this repo, please make sure to cite the datasets you parsed. Also, pl
 
 ### Notes
 
-1. Both CARER and Crowdflower will need to be edited to match the same dataset schema
+1. ~~Both CARER and Crowdflower will need to be edited to match the same dataset schema~~
 2. ~~Check for multilabel instaces in ElectoralTweets~~
-3. Some method for seeing samples from each dataset
-4. Some script for quickly generating a `.bib` file from all the downloaded datasets
+3. ~~Some method for seeing samples from each dataset~~
+4. ~~Some script for quickly generating a `.bib` file from all the downloaded datasets~~
+5. TalesEmotions needs to be altered to fit schema
 
 </details>
 

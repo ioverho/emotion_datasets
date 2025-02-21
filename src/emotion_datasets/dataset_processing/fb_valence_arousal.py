@@ -139,10 +139,8 @@ class FBValenceArousalProcessor(DatasetBase):
                 AS
                     SELECT
                         \"Anonymized Message\" AS text,
-                        (Valence1 - 5) / 4 AS valence_1,
-                        (Valence2 - 5) / 4 AS valence_2,
-                        (Arousal1 - 5) / 4 AS arousal_1,
-                        (Arousal2 - 5) / 4 AS arousal_2
+                        (Valence1 + Valence2) / 2.0 AS valence,
+                        (Arousal1 + Arousal2) / 2.0 AS arousal
                     FROM (
                         SELECT *
                         FROM read_csv('{str(download_result.data_file_path)}',

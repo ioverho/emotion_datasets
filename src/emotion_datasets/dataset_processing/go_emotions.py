@@ -70,7 +70,7 @@ GOEMOTIONS_METADATA = DatasetMetadata(
         "surprise",
         "neutral",
     ],
-    multilabel=False,
+    multilabel=True,
     continuous=False,
     system="Custom hierarchical emotion system",
     domain="Reddit posts",

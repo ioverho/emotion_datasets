@@ -33,19 +33,19 @@ CROWDFLOWER_METADATA = DatasetMetadata(
     homepage="",
     license="",
     emotions=[
-        "neutral",
-        "empty",
-        "worry",
-        "happiness",
-        "sadness",
-        "love",
-        "surprise",
-        "fun",
-        "relief",
-        "hate",
-        "enthusiasm",
-        "boredom",
         "anger",
+        "boredom",
+        "empty",
+        "enthusiasm",
+        "fun",
+        "happiness",
+        "hate",
+        "love",
+        "neutral",
+        "relief",
+        "sadness",
+        "surprise",
+        "worry",
     ],
     multilabel=False,
     continuous=False,
@@ -137,7 +137,10 @@ class CrowdFlowerProcessor(DatasetBase):
                 f"""
                 CREATE TABLE temp
                 AS
-                    SELECT *
+                    SELECT
+                        tweet_id,
+                        sentiment,
+                        content AS text
                     FROM read_csv('{str(download_result.data_file_path)}',
                         header = true,
                         columns = {{
@@ -146,6 +149,34 @@ class CrowdFlowerProcessor(DatasetBase):
                             'author': 'VARCHAR',
                             'content': 'VARCHAR',
                         }})
+                """
+            )
+
+            # Pivot on the sentiment column
+            temp_db.sql(
+                """
+                CREATE OR REPLACE TABLE temp
+                AS
+                    SELECT
+                        tweet_id,
+                        text,
+                        IFNULL(anger, false) AS anger,
+                        IFNULL(boredom, false) AS boredom,
+                        IFNULL(empty, false) AS empty,
+                        IFNULL(enthusiasm, false) AS enthusiasm,
+                        IFNULL(fun, false) AS fun,
+                        IFNULL(happiness, false) AS happiness,
+                        IFNULL(hate, false) AS hate,
+                        IFNULL(love, false) AS love,
+                        IFNULL(neutral, false) AS neutral,
+                        IFNULL(relief, false) AS relief,
+                        IFNULL(sadness, false) AS sadness,
+                        IFNULL(surprise, false) AS surprise,
+                        IFNULL(worry, false) AS worry
+                    FROM (
+                        PIVOT temp
+                        ON sentiment
+                    )
                 """
             )
 
