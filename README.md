@@ -15,6 +15,8 @@ Currently implemented datasets:
 | [EmoInt](http://saifmohammad.com/WebPages/EmotionIntensity-SharedTask.html)                  | Subset of common emotions anotated using best-worst scaling                 | 4      | ✓          | ✓          | 6.9k | Twitter posts                                     |
 | [FBValenceArousal](https://github.com/wwbp/additional_data_sets/tree/master/valence_arousal) | Valence Arousal                                                             | 2      |            | ✓          | 2.9k | Facebook posts                                    |
 | [GoEmotions](https://github.com/google-research/google-research/tree/master/goemotions)      | Custom hierarchical emotion system                                          | 28     | ✓          |            | 58k  | Reddit posts                                      |
+| [Hurricanes8](https://github.com/shreydesai/hurricane/tree/master)                           | Plutchik-8 emotions                                                         | 8      | ✓          |            |      | Twitter posts about hurricanes                    |
+| [Hurricanes24](https://github.com/shreydesai/hurricane/tree/master)                          | Plutchik-24 emotions                                                        | 24     | ✓          |            |      | Twitter posts about hurricanes                    |
 | [ISEAR](https://www.unige.ch/cisa/research/materials-and-online-research/research-material/) | Situations in which a subject experienced one of 7 major emotions           | 7      |            |            | 7.6k | Situation descriptions                            |
 | [REN20k](https://dcs.uoc.ac.in/cida/resources/ren-20k.html)[1]                               | Evoked emoions annotated by many readers                                    | 8      | ✓          | ✓          | 20k  | News articles                                     |
 | [SentimentalLIAR](https://github.com/UNHSAILLab/SentimentalLIAR)                             | Automated emotion annotation using Google and IBM NLP APIs                  | 6      | ✓          | ✓          | 13k  | Short snippets from politicians and famous people |
@@ -142,8 +144,9 @@ If you use this repo, please make sure to cite the datasets you parsed. Also, pl
 | emotiondata-aman                                                                                                                       |                                        |
 | [TEC](https://socialmediaie.github.io/MetaCorpus/#:~:text=Hashtag%20Emotion%20Corpus%20(aka%20Twitter%20Emotion%20Corpus,%20or%20TEC)) |                                        |
 | [SMILE Twitter Emotion](https://socialmediaie.github.io/MetaCorpus/#:~:text=SMILE%20Twitter%20Emotion)                                 |                                        |
-| [Hurricane](https://github.com/shreydesai/hurricane)                                                                                   |                                        |
 | [IMS Datasets](https://www.ims.uni-stuttgart.de/forschung/ressourcen/korpora/emotion/)                                                 |                                        |
+| [CancerEmo](https://github.com/tsosea2/CancerEmo)                                                                                      |                                        |
+| [EmoNet](https://aclanthology.org/P17-1067.pdf)                                                                                        |                                        |
 |                                                                                                                                        |                                        |
 
 
