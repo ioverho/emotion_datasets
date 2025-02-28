@@ -9,8 +9,8 @@ wheels/
 # Virtual environments
 .venv
 
-data
-output
-klad
-misc
-downloads
+/data/
+/output/
+/klad/
+/misc/
+/downloads/

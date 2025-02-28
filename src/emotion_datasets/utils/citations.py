@@ -1,5 +1,4 @@
 import pathlib
-import typing
 import logging
 
 from emotion_datasets.dataset_processing.base import DatasetMetadata
@@ -11,7 +10,7 @@ REPO_CITATION = (
     "@software{ioverho_emotion_datasets,"
     "\n    author = {Verhoeven, Ivo},"
     "\n    license = {CC-BY-4.0},"
-    "\n    title = {{emotion\_datasets}},"
+    "\n    title = {{emotion\\_datasets}},"
     "\n    url = {https://github.com/ioverho/emotion_datasets}"
     "\n}"
     )

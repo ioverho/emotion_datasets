@@ -14,6 +14,8 @@ from .hurricanes8 import Hurricanes8Processor  # noqa: F401
 from .hurricanes24 import Hurricanes24Processor  # noqa: F401
 from .isear import ISEARProcessor  # noqa: F401
 from .ren20k import REN20kProcessor  # noqa: F401
+from .semeval2018_classification import Semeval2018ClassificationProcessor  # noqa: F401
+from .semeval2018_intensity import Semeval2018IntensityProcessor  # noqa: F401
 from .sentimental_liar import SentimentalLIARProcessor  # noqa: F401
 from .ssec import SSECProcessor  # noqa: F401
 from .tales_emotions import TalesEmotionsProcessor  # noqa: F401

@@ -30,7 +30,7 @@ logger.setLevel(logging.INFO)
 HURRICANES24_METADATA = DatasetMetadata(
     description="The Hurricanes dataset, as processed by 'emotion_datasets'. The datasets include tweets for 3 different hurricanes: Harvey, Irma and Maria. Each tweet has MTurk annotations for the fine-grained Plutchik-24 emotion system.",
     citation=(
-        "@inproceedings{emotion_datasets_hurricanes,"
+        "@inproceedings{emotion_dataset_hurricanes,"
         "\n   author={Desai, Shrey and Caragea, Cornelia and Li, Junyi Jessy},"
         "\n   title={{Detecting Perceived Emotions in Hurricane Disasters}},"
         "\n   booktitle={Proceedings of the Association for Computational Linguistics (ACL)},"

@@ -1,5 +1,3 @@
-from collections import Counter
-import json
 import shutil
 import tempfile
 import typing
@@ -32,7 +30,7 @@ logger.setLevel(logging.INFO)
 HURRICANES8_METADATA = DatasetMetadata(
     description="The Hurricanes dataset, as processed by 'emotion_datasets'. The datasets include tweets for 3 different hurricanes: Harvey, Irma and Maria. Each tweet has MTurk annotations for the fine-grained Plutchik-24 emotion system.",
     citation=(
-        "@inproceedings{emotion_datasets_hurricanes,"
+        "@inproceedings{emotion_dataset_hurricanes,"
         "\n   author={Desai, Shrey and Caragea, Cornelia and Li, Junyi Jessy},"
         "\n   title={{Detecting Perceived Emotions in Hurricane Disasters}},"
         "\n   booktitle={Proceedings of the Association for Computational Linguistics (ACL)},"
@@ -101,7 +99,8 @@ class Hurricanes8Processor(DatasetBase):
             "https://raw.githubusercontent.com/shreydesai/hurricane/refs/heads/master/datasets_binary//remorse_test.csv",
             "https://raw.githubusercontent.com/shreydesai/hurricane/refs/heads/master/datasets_binary//submission_train.csv",
             "https://raw.githubusercontent.com/shreydesai/hurricane/refs/heads/master/datasets_binary//submission_valid.csv",
-            "https://raw.githubusercontent.com/shreydesai/hurricane/refs/heads/master/datasets_binary//submission_test.csv",      ]
+            "https://raw.githubusercontent.com/shreydesai/hurricane/refs/heads/master/datasets_binary//submission_test.csv",
+        ]
     )
 
     metadata: typing.ClassVar[DatasetMetadata] = HURRICANES8_METADATA
@@ -174,12 +173,14 @@ class Hurricanes8Processor(DatasetBase):
                     value INTEGER,
                 )
                 """
-                )
+            )
 
             # Ingest all binary emotion files
             # Should be one train, val, test file for each emotion
             for emotion in self.metadata.emotions:
-                file_pattern = str(download_result.downloads_subdir / ( emotion + '*.csv'))
+                file_pattern = str(
+                    download_result.downloads_subdir / (emotion + "*.csv")
+                )
 
                 temp_db.sql(
                     f"""
@@ -282,7 +283,9 @@ class Hurricanes8Processor(DatasetBase):
 
         logger.info("Processing - Finished dataset processing.")
 
-        processing_result = Hurricanes8ProcessingResult(data_subdir=data_subdir, temp_dir=temp_dir)
+        processing_result = Hurricanes8ProcessingResult(
+            data_subdir=data_subdir, temp_dir=temp_dir
+        )
 
         return processing_result
 
