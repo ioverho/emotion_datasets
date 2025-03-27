@@ -4,6 +4,7 @@ from emotion_datasets.dataset_processing.base import DATASET_REGISTRY
 
 DATASET_SIZES = {
     "AffectiveText": "1.3k",
+    "CancerEmo": "12k",
     "CARER": "20k",
     "CrowdFlower": "40k",
     "ElectoralTweets": "1.1k",
