@@ -19,6 +19,7 @@ from .semeval2018_classification import Semeval2018ClassificationProcessor  # no
 from .semeval2018_intensity import Semeval2018IntensityProcessor  # noqa: F401
 from .sentimental_liar import SentimentalLIARProcessor  # noqa: F401
 from .ssec import SSECProcessor  # noqa: F401
+from .stockemotions import StockEmotionsProcessor  # noqa: F401
 from .tales_emotions import TalesEmotionsProcessor  # noqa: F401
 from .usvsthem import UsVsThemProcessor  # noqa: F401
 from .wassa22 import WASSA22Processor  # noqa: F401

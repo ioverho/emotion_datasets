@@ -20,6 +20,7 @@ DATASET_SIZES = {
     "Semeval2018Intensity": "11k",
     "SentimentalLIAR": "13k",
     "SSEC": "4.8k",
+    "StockEmotions": "10k",
     "TalesEmotions": "15k",
     "UsVsThem": "6.8k",
     "WASSA22": "2.1k",
