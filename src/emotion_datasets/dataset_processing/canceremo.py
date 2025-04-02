@@ -31,7 +31,7 @@ logger.setLevel(logging.INFO)
 CANCEREMO_METADATA = DatasetMetadata(
     description="The CancerEmo dataset, as processed by 'emotion_datasets'. CancerEmo is an emotion dataset created from an online health community and annotated with eight fine-grained emotions.",
     citation=(
-        "@inproceedings{sosea-caragea-2020-canceremo,"
+        "@inproceedings{emotion_dataset_canceremo,"
         "\n    title = '{C}ancer{E}mo: A Dataset for Fine-Grained Emotion Detection',"
         "\n    author = 'Sosea, Tiberiu  and"
         "\n      Caragea, Cornelia',"
@@ -209,6 +209,10 @@ class CancerEmoProcessor(DatasetBase):
             hf_dataset.info.citation = self.metadata.citation
             hf_dataset.info.homepage = self.metadata.homepage
             hf_dataset.info.license = self.metadata.license
+
+            logger.info(
+                f"Processing - HuggingFace dataset has {hf_dataset.num_rows} rows"
+            )
 
             logger.info(f"Processing - Saving HuggingFace dataset: {data_subdir}")
 

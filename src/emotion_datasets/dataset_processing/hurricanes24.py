@@ -184,6 +184,10 @@ class Hurricanes24Processor(DatasetBase):
             ),
         )
 
+        logger.info(
+            f"Processing - HuggingFace dataset has {hf_dataset.num_rows} rows"
+        )
+
         logger.info(f"Processing - Saving HuggingFace dataset: {data_subdir}")
 
         hf_dataset.save_to_disk(

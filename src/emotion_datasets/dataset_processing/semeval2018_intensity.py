@@ -276,6 +276,10 @@ class Semeval2018IntensityProcessor(DatasetBase):
             hf_dataset.info.homepage = self.metadata.homepage
             hf_dataset.info.license = self.metadata.license
 
+            logger.info(
+                f"Processing - HuggingFace dataset has {hf_dataset.num_rows} rows"
+            )
+
             logger.info(f"Processing - Saving HuggingFace dataset: {data_subdir}")
 
             hf_dataset.save_to_disk(

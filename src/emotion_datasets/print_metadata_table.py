@@ -12,6 +12,7 @@ DATASET_SIZES = {
     "EmoInt": "6.9k",
     "FBValenceArousal": "2.9k",
     "GoEmotions": "58k",
+    "GoodNewsEveryone": "5k",
     "Hurricanes8": "14k",
     "Hurricanes24": "15k",
     "ISEAR": "7.6k",

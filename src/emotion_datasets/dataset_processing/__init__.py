@@ -11,6 +11,7 @@ from .emobank import EmoBankProcessor  # noqa: F401
 from .emoint import EmoIntProcessor  # noqa: F401
 from .fb_valence_arousal import FBValenceArousalProcessor  # noqa: F401
 from .go_emotions import GoEmotionsProcessor  # noqa: F401
+from .goodnewseveryone import GoodNewsEveryoneProcessor  # noqa: F401
 from .hurricanes8 import Hurricanes8Processor  # noqa: F401
 from .hurricanes24 import Hurricanes24Processor  # noqa: F401
 from .isear import ISEARProcessor  # noqa: F401

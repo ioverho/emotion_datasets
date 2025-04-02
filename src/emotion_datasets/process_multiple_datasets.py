@@ -28,6 +28,8 @@ class MultipleDatasetProcessingConfig(ConfigBase):
 
     skip: typing.List[str] = dataclasses.field(default_factory=lambda: [])
 
+    skip_errors: bool = True
+
     print_config: bool = True
 
 
@@ -86,7 +88,17 @@ def process_multiple_datasets(config: omegaconf.DictConfig):
     for dataset_name, dataset_config in dataset_to_config.items():
         logger.info(f"Orchestration - Starting processing for dataset: {dataset_name}")
 
-        emotion_datasets.process_one_dataset.process_dataset(dataset_config)
+        try:
+            emotion_datasets.process_one_dataset.process_dataset(dataset_config)
+        except Exception as e:
+            if config.skip_errors or config.debug:
+                logger.critical(
+                    f"Could not process dataset '{dataset_name}'. Encountered the following exception: {e}"
+                )
+            else:
+                raise ValueError(
+                    f"Could not process dataset '{dataset_name}'. Encountered the following exception: {e}"
+                )
 
     logger.info("Orchestration - Finished processing all datasets")
 

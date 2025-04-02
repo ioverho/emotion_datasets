@@ -165,6 +165,10 @@ class CARERProcessor(DatasetBase):
         mapped_dataset.info.homepage = self.metadata.homepage
         mapped_dataset.info.license = self.metadata.license
 
+        logger.info(
+            f"Processing - HuggingFace dataset has {mapped_dataset.num_rows} rows"
+        )
+
         mapped_dataset.save_to_disk(
             dataset_path=str(data_subdir),
             max_shard_size=max_shard_size,

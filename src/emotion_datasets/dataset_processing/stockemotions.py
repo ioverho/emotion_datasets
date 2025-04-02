@@ -28,13 +28,13 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 STOCKEMOTIONS_METADATA = DatasetMetadata(
-    description="The Sotck Emotions dataset, as processed by 'emotion_datasets'. This dataset consists of comments collected from StockTwits, a financial social media platform, during the COVID19 pandemic.",
+    description="The Stock Emotions dataset, as processed by 'emotion_datasets'. This dataset consists of comments collected from StockTwits, a financial social media platform, during the COVID19 pandemic.",
     citation=(
-        "@article{lee2023stockemotions,"
-        "   \ntitle={StockEmotions: Discover Investor Emotions for Financial Sentiment Analysis and Multivariate Time Series},"
-        "   \nauthor={Lee, Jean and Youn, Hoyoul Luis and Poon, Josiah and Han, Soyeon Caren},"
-        "   \njournal={arXiv preprint arXiv:2301.09279},"
-        "   \nyear={2023}"
+        "@article{emotion_dataset_stockemotions,"
+        "\n title={StockEmotions: Discover Investor Emotions for Financial Sentiment Analysis and Multivariate Time Series},"
+        "\n author={Lee, Jean and Youn, Hoyoul Luis and Poon, Josiah and Han, Soyeon Caren},"
+        "\n journal={arXiv preprint arXiv:2301.09279},"
+        "\n year={2023}"
         "\n}"
     ),
     homepage="https://github.com/adlnlp/StockEmotions/tree/main",
@@ -208,6 +208,10 @@ class StockEmotionsProcessor(DatasetBase):
             hf_dataset.info.citation = self.metadata.citation
             hf_dataset.info.homepage = self.metadata.homepage
             hf_dataset.info.license = self.metadata.license
+
+            logger.info(
+                f"Processing - HuggingFace dataset has {hf_dataset.num_rows} rows"
+            )
 
             logger.info(f"Processing - Saving HuggingFace dataset: {data_subdir}")
 

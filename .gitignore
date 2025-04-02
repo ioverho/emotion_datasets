@@ -11,6 +11,7 @@ wheels/
 
 /data/
 /output/
+/output_deprecated/
 /klad/
 /misc/
 /downloads/
