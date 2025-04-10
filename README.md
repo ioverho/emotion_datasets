@@ -14,6 +14,7 @@ Currently implemented datasets:
 | [ElectoralTweets](http://saifmohammad.com/WebPages/SentimentEmotionLabeledData.html)                        | Discrete categories with some aggregated emotions                           | 21     | ✓          |            | 1.1k | Twitter posts                                     |
 | [EmoBank](https://github.com/JULIELab/EmoBank/tree/master)                                                  | Valence-Arousal-Dominance                                                   | 3      |            | ✓          | 10k  | Varied                                            |
 | [EmoInt](http://saifmohammad.com/WebPages/EmotionIntensity-SharedTask.html)                                 | Subset of common emotions anotated using best-worst scaling                 | 4      | ✓          | ✓          | 6.9k | Twitter posts                                     |
+| [EmotionStimulus](https://www.eecs.uottawa.ca/~diana/resources/emotion_stimulus_data/)                      | Ekman basic emotions                                                        | 7      |            |            | 2.4k | Emotion bearing sentences                         |
 | [FBValenceArousal](https://github.com/wwbp/additional_data_sets/tree/master/valence_arousal)                | Valence Arousal                                                             | 2      |            | ✓          | 2.9k | Facebook posts                                    |
 | [GoEmotions](https://github.com/google-research/google-research/tree/master/goemotions)                     | Custom hierarchical emotion system                                          | 28     | ✓          |            | 58k  | Reddit posts                                      |
 | [GoodNewsEveryone](https://www.ims.uni-stuttgart.de/forschung/ressourcen/korpora/goodnewseveryone/)         | Extended Plutchik                                                           | 16     |            |            | 5k   | News headlines                                    |
@@ -142,6 +143,8 @@ If you use this repo, please make sure to cite the datasets you parsed. Also, pl
 
 | Name                                                                                                                                   | Description                            |
 | -------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| Blogs                                                                                                                                  |                                        |
+| TEC                                                                                                                       |                                        |
 | [VENT](https://zenodo.org/records/2537982)                                                                                             | Huge tweets dataset with many emotions |
 | [TEC](https://socialmediaie.github.io/MetaCorpus/#:~:text=Hashtag%20Emotion%20Corpus%20(aka%20Twitter%20Emotion%20Corpus,%20or%20TEC)) |                                        |
 | [SMILE Twitter Emotion](https://socialmediaie.github.io/MetaCorpus/#:~:text=SMILE%20Twitter%20Emotion)                                 |                                        |
@@ -168,5 +171,6 @@ If you use this repo, please make sure to cite the datasets you parsed. Also, pl
 | [SemEval-2019 Task 3: EmoContext](https://competitions.codalab.org/competitions/19790)   | Emotion spread out over long context            |
 | [Grounded Emotion](https://web.eecs.umich.edu/~mihalcea/downloads.html#GroundedEmotions) | SoTA classifiers cannot beat random performance |
 | [dailydialog](http://yanran.li/dailydialog)                                              | Avoiding conversational data for now            |
+| [EmoWoz](https://huggingface.co/datasets/hhu-dsml/emowoz)                                | Avoiding conversational data for now            |
 
 </details>

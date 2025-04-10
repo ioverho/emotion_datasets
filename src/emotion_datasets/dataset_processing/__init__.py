@@ -9,6 +9,7 @@ from .crowdflower import CrowdFlowerProcessor  # noqa: F401
 from .electoral_tweets import ElectoralTweetsProcessor  # noqa: F401
 from .emobank import EmoBankProcessor  # noqa: F401
 from .emoint import EmoIntProcessor  # noqa: F401
+from .emotion_stimulus import EmotionStimulusProcessor  # noqa: F401
 from .fb_valence_arousal import FBValenceArousalProcessor  # noqa: F401
 from .go_emotions import GoEmotionsProcessor  # noqa: F401
 from .goodnewseveryone import GoodNewsEveryoneProcessor  # noqa: F401

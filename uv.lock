@@ -252,6 +252,7 @@ dependencies = [
     { name = "duckdb" },
     { name = "gdown" },
     { name = "hydra-core" },
+    { name = "opus-fast-mosestokenizer" },
     { name = "requests" },
     { name = "tqdm" },
 ]
@@ -269,6 +270,7 @@ requires-dist = [
     { name = "duckdb", specifier = "==1.0.0" },
     { name = "gdown", specifier = ">=5.2.0" },
     { name = "hydra-core", specifier = ">=1.3.2" },
+    { name = "opus-fast-mosestokenizer", specifier = ">=0.0.8.7" },
     { name = "requests", specifier = ">=2.32.3" },
     { name = "tqdm", specifier = ">=4.67.1" },
 ]
@@ -542,6 +544,18 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/09/48/6388f1bb9da707110532cb70ec4d2822858ddfb44f1cdf1233c20a80ea4b/omegaconf-2.3.0.tar.gz", hash = "sha256:d5d4b6d29955cc50ad50c46dc269bcd92c6e00f5f90d23ab5fee7bfca4ba4cc7", size = 3298120 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/e3/94/1843518e420fa3ed6919835845df698c7e27e183cb997394e4a670973a65/omegaconf-2.3.0-py3-none-any.whl", hash = "sha256:7b4df175cdb08ba400f45cae3bdcae7ba8365db4d165fc65fd04b050ab63b46b", size = 79500 },
+]
+
+[[package]]
+name = "opus-fast-mosestokenizer"
+version = "0.0.8.7"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/10/e5/86be04a7a3b95ea6abc7c4dc1e30209f36d15d29e3a6fbf590590cc532c9/opus_fast_mosestokenizer-0.0.8.7.tar.gz", hash = "sha256:6def802ea359bc56f39573bf3580472759bee356f60079bb900dc3a0f039b82c", size = 86887 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/29/93/df7d270b768297c0fec921478839e2a452fe7a722348f49f6353f50c494f/opus_fast_mosestokenizer-0.0.8.7-cp311-cp311-macosx_12_0_x86_64.whl", hash = "sha256:fa715afafc09f7e25fefc047fdaa50d9061b59422b4f5306e38677fd673b4b4a", size = 727423 },
+    { url = "https://files.pythonhosted.org/packages/ea/99/3dca66ef3144260f8cddc747b21b3ac19e4a9d65e30c0bf8a414df9be2b6/opus_fast_mosestokenizer-0.0.8.7-cp311-cp311-manylinux1_x86_64.whl", hash = "sha256:65ae245b2e20a2444253fe4cdd3c97507f2ed6ccef5227304d3c1a0d45f7fde1", size = 837245 },
+    { url = "https://files.pythonhosted.org/packages/34/1c/30784f6c5293c1aa23acba44be1a1cf272c9206b86d58111d6699f8534b3/opus_fast_mosestokenizer-0.0.8.7-cp312-cp312-macosx_12_0_x86_64.whl", hash = "sha256:f895d1238c44048d5de76f9b8c8b87f3a5164784b48c4c20f8d67295538ed931", size = 728283 },
+    { url = "https://files.pythonhosted.org/packages/87/70/f0251d40a3e9d90d9bb609b30849018ec194927765ff6fca98d18b7247aa/opus_fast_mosestokenizer-0.0.8.7-cp312-cp312-manylinux1_x86_64.whl", hash = "sha256:a2d00412d0400383597f9c6ca472a3243f2f97520f28905ab3edb67499749261", size = 838411 },
 ]
 
 [[package]]

@@ -10,6 +10,7 @@ DATASET_SIZES = {
     "ElectoralTweets": "1.1k",
     "EmoBank": "10k",
     "EmoInt": "6.9k",
+    "EmotionStimulus": "2.4k",
     "FBValenceArousal": "2.9k",
     "GoEmotions": "58k",
     "GoodNewsEveryone": "5k",
