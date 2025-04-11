@@ -5,16 +5,16 @@ from tqdm import tqdm
 from tqdm.contrib.logging import logging_redirect_tqdm
 
 HEADERS = {
-    "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:15.0) Gecko/20100101 Firefox/15.0.1",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:137.0) Gecko/20100101 Firefox/137.0",
     "Referer": "https://www.google.com",
 }
 
 
-def download(url: str, file_path: str | pathlib.Path):
-    # Streaming, so we can iterate over the response.
-    response = requests.get(url, stream=True, headers=HEADERS)
+def download(url: str, file_path: str | pathlib.Path, custom_headers: dict = dict()):
+    # Streaming, so we can iterate over the response
+    response = requests.get(url, stream=True, headers=HEADERS | custom_headers)
 
-    # Sizes in bytes.
+    # Sizes in bytes
     total_size = int(response.headers.get("content-length", 0))
     block_size = 1024
 

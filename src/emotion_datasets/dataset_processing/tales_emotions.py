@@ -13,11 +13,9 @@ from emotion_datasets.dataset_processing.base import (
     DatasetBase,
     DownloadResult,
     ProcessingResult,
-    DownloadError,
     DatasetMetadata,
 )
 from emotion_datasets.utils import (
-    download,
     get_file_stats,
     update_manifest,
     update_bib_file,
@@ -81,39 +79,22 @@ class TalesEmotionsProcessingResult(
 
 @dataclasses.dataclass
 class TalesEmotionsProcessor(DatasetBase):
-    name: str = "TalesEmotions"
+    potter_file_path: pathlib.Path
+    hc_andersen_file_path: pathlib.Path
+    grimms_file_path: pathlib.Path
 
-    urls: typing.List[str] = dataclasses.field(
-        default_factory=lambda: [
-            "http://people.rc.rit.edu/~coagla/affectdata/Potter.tar.gz",
-            "http://people.rc.rit.edu/~coagla/affectdata/HCAndersen.tar.gz",
-            "http://people.rc.rit.edu/~coagla/affectdata/Grimms.tar.gz",
-        ]
-    )
+    name: str = "TalesEmotions"
 
     primary_emotion_map: typing.Dict[str, str] = dataclasses.field(
         default_factory=lambda: {
-            "A": "Angry",
-            "D": "Disgusted",
-            "F": "Fearful",
-            "H": "Happy",
-            "N": "Neutral",
-            "Sa": "Sad",
-            "Su+": "Pos.Surprised",
-            "Su-": "Pos.Surprised",
-        }
-    )
-
-    mood_map: typing.Dict[str, str] = dataclasses.field(
-        default_factory=lambda: {
-            "A": "Angry",
-            "D": "Disgusted",
-            "F": "Fearful",
-            "H": "Happy",
-            "N": "Neutral",
-            "S": "Sad",
-            "+": "Pos.Surprised",
-            "-": "Pos.Surprised",
+            "A": "angry",
+            "D": "disgusted",
+            "F": "fearful",
+            "H": "happy",
+            "N": "neutral",
+            "Sa": "sad",
+            "Su+": "positively surprised",
+            "Su-": "negatively surprised",
         }
     )
 
@@ -127,33 +108,20 @@ class TalesEmotionsProcessor(DatasetBase):
         os.makedirs(name=downloads_subdir, exist_ok=True)
 
         downloaded_dirs = []
-        for i, url in enumerate(self.urls):
-            file_name = pathlib.Path(url).name
+        for i, file_path in enumerate(
+            [self.potter_file_path, self.hc_andersen_file_path, self.grimms_file_path]
+        ):
+            file_name = pathlib.Path(file_path).name
 
-            logger.info(
-                f"Download - Downloading author zip file {i}/{len(self.urls)}: {file_name}"
-            )
-            author = pathlib.Path(url).name.split(".")[0]
+            author = pathlib.Path(file_path).name.split(".")[0]
 
-            downloaded_file_name = pathlib.Path(url).name
-
-            downloaded_file_path = downloads_subdir / downloaded_file_name
-
-            try:
-                download(
-                    url=url,
-                    file_path=downloaded_file_path,
-                )
-            except Exception as e:
-                raise DownloadError(
-                    f"Could not download zip file ({file_name}). Encountered the following exception: {e}"
-                )
-
-            logger.info(
-                f"Download - Extracting author zip file {i}/{len(self.urls)}: {file_name}"
+            assert file_path.exists(), (
+                f"Author zip file not found: {file_path.resolve()}"
             )
 
-            with tarfile.open(downloaded_file_path) as f:
+            logger.info(f"Download - Extracting zip file {i + 1}/3: {file_name}")
+
+            with tarfile.open(file_path) as f:
                 f.extractall(downloads_subdir / author)
 
             downloaded_dirs.append(downloads_subdir / author)
@@ -203,10 +171,10 @@ class TalesEmotionsProcessor(DatasetBase):
                             primary_emotion_labels[0]
                         ]
 
-                        mood_labels = line[2].split(":")
+                        # mood_labels = line[2].split(":")
 
-                        mood_label_a = self.mood_map[mood_labels[0]]
-                        mood_label_b = self.mood_map[mood_labels[0]]
+                        # mood_label_a = self.mood_map[mood_labels[0]]
+                        # mood_label_b = self.mood_map[mood_labels[0]]
 
                         text = line[3]
 
@@ -215,11 +183,47 @@ class TalesEmotionsProcessor(DatasetBase):
                                 "author": author,
                                 "story": mood_file_path.stem,
                                 "sent_id": sent_id,
-                                "primary_emotion_label_a": primary_emotion_label_a,
-                                "primary_emotion_label_b": primary_emotion_label_b,
-                                "mood_label_a": mood_label_a,
-                                "mood_label_b": mood_label_b,
                                 "text": text,
+                                "angry": (
+                                    1 if primary_emotion_label_a == "angry" else 0
+                                )
+                                + (1 if primary_emotion_label_b == "angry" else 0),
+                                "disgusted": (
+                                    1 if primary_emotion_label_a == "disgusted" else 0
+                                )
+                                + (1 if primary_emotion_label_b == "disgusted" else 0),
+                                "fearful": (
+                                    1 if primary_emotion_label_a == "fearful" else 0
+                                )
+                                + (1 if primary_emotion_label_b == "fearful" else 0),
+                                "happy": (
+                                    1 if primary_emotion_label_a == "happy" else 0
+                                )
+                                + (1 if primary_emotion_label_b == "happy" else 0),
+                                "neutral": (
+                                    1 if primary_emotion_label_a == "neutral" else 0
+                                )
+                                + (1 if primary_emotion_label_b == "neutral" else 0),
+                                "positively surprised": (
+                                    1
+                                    if primary_emotion_label_a == "positively surprised"
+                                    else 0
+                                )
+                                + (
+                                    1
+                                    if primary_emotion_label_b == "positively surprised"
+                                    else 0
+                                ),
+                                "negatively surprised": (
+                                    1
+                                    if primary_emotion_label_a == "negatively surprised"
+                                    else 0
+                                )
+                                + (
+                                    1
+                                    if primary_emotion_label_b == "negatively surprised"
+                                    else 0
+                                ),
                             }
                         )
 
@@ -235,9 +239,7 @@ class TalesEmotionsProcessor(DatasetBase):
             ),
         )
 
-        logger.info(
-            f"Processing - HuggingFace dataset has {hf_dataset.num_rows} rows"
-        )
+        logger.info(f"Processing - HuggingFace dataset has {hf_dataset.num_rows} rows")
 
         logger.info(f"Processing - Saving HuggingFace dataset: {data_subdir}")
 

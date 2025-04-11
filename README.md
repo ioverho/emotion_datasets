@@ -28,6 +28,7 @@ Currently implemented datasets:
 | [SSEC](https://www.romanklinger.de/ssec/)                                                                   | A mixture between Plutchik and Ekman                                        | 8      | ✓          |            | 4.8k | Twitter posts                                     |
 | [StockEmotions](https://github.com/adlnlp/StockEmotions/tree/main)                                          | Custom emotions set                                                         | 13     |            |            | 10k  | Social media comments about stocks                |
 | [TalesEmotions](http://people.rc.rit.edu/~coagla/affectdata/index.html)                                     | Ekman basic emotions                                                        | 7      |            |            | 15k  | Fairy tales                                       |
+| [TEC](https://saifmohammad.com/WebPages/SentimentEmotionLabeledData.html)                                   | Ekman basic emotions                                                        | 6      |            |            | 21k  | Twitter posts                                     |
 | [UsVsThem](https://github.com/LittlePea13/UsVsThem)                                                         | Positive and negative emotions associated with populist attitudes           | 13     | ✓          |            | 6.8k | Reddit posts                                      |
 | [WASSA22](https://codalab.lisn.upsaclay.fr/competitions/834#learn_the_details-overview)                     | Ekman basic emotions, along with continuous scores for empathy and distress | 9      |            |            | 2.1k | Essays                                            |
 | [XED](https://github.com/Helsinki-NLP/XED/tree/master)                                                      | Plutchik core emotions                                                      | 9      | ✓          | ✓          | 27k  | Subtitles                                         |
@@ -144,9 +145,7 @@ If you use this repo, please make sure to cite the datasets you parsed. Also, pl
 | Name                                                                                                                                   | Description                            |
 | -------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
 | Blogs                                                                                                                                  |                                        |
-| TEC                                                                                                                       |                                        |
 | [VENT](https://zenodo.org/records/2537982)                                                                                             | Huge tweets dataset with many emotions |
-| [TEC](https://socialmediaie.github.io/MetaCorpus/#:~:text=Hashtag%20Emotion%20Corpus%20(aka%20Twitter%20Emotion%20Corpus,%20or%20TEC)) |                                        |
 | [SMILE Twitter Emotion](https://socialmediaie.github.io/MetaCorpus/#:~:text=SMILE%20Twitter%20Emotion)                                 |                                        |
 | [EmoNet](https://aclanthology.org/P17-1067.pdf)                                                                                        |                                        |
 | emotion-cause                                                                                                                          |                                        |
@@ -159,7 +158,7 @@ If you use this repo, please make sure to cite the datasets you parsed. Also, pl
 2. ~~Check for multilabel instaces in ElectoralTweets~~
 3. ~~Some method for seeing samples from each dataset~~
 4. ~~Some script for quickly generating a `.bib` file from all the downloaded datasets~~
-5. TalesEmotions needs to be altered to fit schema
+5. ~~TalesEmotions needs to be altered to fit schema~~
 
 </details>
 

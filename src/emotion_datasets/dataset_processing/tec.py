@@ -1,16 +1,16 @@
+import csv
 import dataclasses
 import os
 import pathlib
 import logging
-import re
 import shutil
 import tempfile
 import typing
 import zipfile
+import html
 
 import duckdb
 import datasets
-import mosestokenizer
 import pandas as pd
 
 from emotion_datasets.dataset_processing.base import (
@@ -31,45 +31,53 @@ from emotion_datasets.utils import (
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
-EMOTIONSTIMULUS_METADATA = DatasetMetadata(
-    description="The Emotion-Stimulus dataset, as processed by 'emotion_datasets'. This dataset contains sentences with some emotion-bearing lexical-unit, mapped to Ekman's basic emotions by volunteers.",
+TEC_METADATA = DatasetMetadata(
+    description="The Hashtag Emotion Corpus or Twitter Emotion Corpus dataset, as processed by 'emotion_datasets'. Twitter posts are found using self-reported hashtags.",
     citation=(
-        "@inproceedings{emotion_dataset_emotion_stimulus,"
-        "\n title={Detecting emotion stimuli in emotion-bearing sentences},"
-        "\n author={Ghazi, Diman and Inkpen, Diana and Szpakowicz, Stan},"
-        "\n booktitle={Computational Linguistics and Intelligent Text Processing: 16th International Conference, CICLing 2015, Cairo, Egypt, April 14-20, 2015, Proceedings, Part II 16},"
-        "\n pages={152--165},"
-        "\n year={2015},"
-        "\n organization={Springer}"
+        "@inproceedings{emotion_dataset_tec,"
+        '\n    title = "{\\#}Emotional Tweets",'
+        '\n    author = "Mohammad, Saif",'
+        '\n    editor = "Agirre, Eneko  and'
+        "\n      Bos, Johan  and"
+        "\n      Diab, Mona  and"
+        "\n      Manandhar, Suresh  and"
+        "\n      Marton, Yuval  and"
+        '\n      Yuret, Deniz",'
+        '\n    booktitle = "*{SEM} 2012: The First Joint Conference on Lexical and Computational Semantics {--} Volume 1: Proceedings of the main conference and the shared task, and Volume 2: Proceedings of the Sixth International Workshop on Semantic Evaluation ({S}em{E}val 2012)",'
+        '\n    month = "7-8 " # jun,'
+        '\n    year = "2012",'
+        '\n    address = "Montr{\'e}al, Canada",'
+        '\n    publisher = "Association for Computational Linguistics",'
+        '\n    url = "https://aclanthology.org/S12-1033/",'
+        '\n    pages = "246--255"'
         "\n}"
     ),
-    homepage="https://www.eecs.uottawa.ca/~diana/resources/emotion_stimulus_data/",
+    homepage="https://saifmohammad.com/WebPages/SentimentEmotionLabeledData.html",
     license="",
     emotions=[
-        "happiness",
-        "sadness",
         "anger",
-        "fear",
-        "surprise",
         "disgust",
-        "shame",
+        "fear",
+        "joy",
+        "sadness",
+        "surprise",
     ],
     multilabel=False,
     continuous=False,
     system="Ekman basic emotions",
-    domain="Emotion bearing sentences",
+    domain="Twitter posts",
 )
 
 
 @dataclasses.dataclass
-class EmotionStimulusDownloadResult(DownloadResult):
+class TECDownloadResult(DownloadResult):
     downloads_subdir: pathlib.Path
     zip_path: pathlib.Path
-    extracted_files_path: pathlib.Path
+    extracted_file: pathlib.Path
 
 
 @dataclasses.dataclass
-class EmotionStimulusProcessingResult(
+class TECProcessingResult(
     ProcessingResult,
 ):
     temp_dir: pathlib.Path
@@ -77,36 +85,28 @@ class EmotionStimulusProcessingResult(
 
 
 @dataclasses.dataclass
-class EmotionStimulusProcessor(DatasetBase):
-    name: str = "EmotionStimulus"
+class TECProcessor(DatasetBase):
+    name: str = "TEC"
 
-    url: str = (
-        "http://www.eecs.uottawa.ca/~diana/resources/emotion_stimulus_data/Dataset.zip"
-    )
+    url: str = "http://saifmohammad.com/WebDocs/Jan9-2012-tweets-clean.txt.zip"
 
-    with_cause_file_name: str = "Emotion Cause.txt"
-    without_cause_file_name: str = "No Cause.txt"
+    metadata: typing.ClassVar[DatasetMetadata] = TEC_METADATA
 
-    metadata: typing.ClassVar[DatasetMetadata] = EMOTIONSTIMULUS_METADATA
-
-    def download_files(
-        self, downloads_dir: pathlib.Path
-    ) -> EmotionStimulusDownloadResult:
+    def download_files(self, downloads_dir: pathlib.Path) -> TECDownloadResult:
         downloads_subdir = downloads_dir / self.name
         os.makedirs(downloads_dir / self.name, exist_ok=True)
 
         # Download the metadata files
         zip_file_name = pathlib.Path(self.url).name
+        zip_path = downloads_subdir / zip_file_name
 
         logger.info(f"Download - Downloading zip file: {zip_file_name}")
         logger.info(f"Download - Source: {self.url}")
 
-        zip_path = downloads_subdir / "electoral_tweets.zip"
-
         try:
             download(
                 url=self.url,
-                file_path=zip_path,
+                file_path=downloads_subdir / zip_file_name,
             )
         except Exception as e:
             raise DownloadError(
@@ -117,74 +117,52 @@ class EmotionStimulusProcessor(DatasetBase):
         with zipfile.ZipFile(zip_path, "r") as f:
             f.extractall(downloads_subdir)
 
-        extracted_files_path = downloads_subdir / "Dataset"
+        unzipped_file_name = downloads_subdir / pathlib.Path(self.url).stem
 
-        assert extracted_files_path.exists()
-
-        download_result = EmotionStimulusDownloadResult(
+        download_result = TECDownloadResult(
             downloads_subdir=downloads_subdir,
             zip_path=zip_path,
-            extracted_files_path=extracted_files_path,
+            extracted_file=unzipped_file_name,
         )
 
         return download_result
 
     def process_files(
         self,
-        download_result: EmotionStimulusDownloadResult,
+        download_result: TECDownloadResult,
         data_dir: pathlib.Path,
         overwrite: bool,
         max_shard_size: int | str,
         num_shards: typing.Optional[int],
         num_proc: typing.Optional[int],
         storage_options: dict,
-    ) -> EmotionStimulusProcessingResult:
+    ) -> TECProcessingResult:
         data_subdir = data_dir / self.name
 
         self.check_directory(data_subdir=data_subdir, overwrite=overwrite)
 
-        tokenizer = mosestokenizer.MosesTokenizer(
-            lang="en", unescape_xml=True, refined_punct_splits=True
-        )
-
-        text_pattern = re.compile(r"(<(.*?)>(.*)<\\([^br][A-Za-z0-9]+)>)")
-        cause_pattern = re.compile(r"<cause>(.*)<\\cause>")
-
+        # Ingest the data
         records = []
+        with open(download_result.extracted_file, mode="r") as f:
+            reader = csv.reader(f, delimiter="\t")
 
-        # Ingest the data with cause annotations
-        with open(
-            download_result.extracted_files_path / self.with_cause_file_name, "r"
-        ) as f:
-            for line in f:
-                cleaned_line = cause_pattern.sub("\\1", line.strip())
+            for line in reader:
+                id = line[0]
+                emotion = line[-1]
 
-                cleaned_line = tokenizer.detokenize(
-                    tokenizer.tokenize(text=cleaned_line)
-                ).strip()
+                text = "\t".join(line[1:-1])
 
-                matches = text_pattern.match(cleaned_line)
+                id = int(id[:-1])
+                text = html.unescape(text.strip())
+                emotion = emotion[2:].strip()
 
-                label = matches.group(2).strip()  # type: ignore
-                text = matches.group(3).strip()  # type: ignore
-
-                records.append({"emotion": label, "text": text})
-
-        # Ingest the data without cause annotation
-        with open(
-            download_result.extracted_files_path / self.without_cause_file_name, "r"
-        ) as f:
-            for line in f:
-                cleaned_line = tokenizer.detokenize(
-                    tokenizer.tokenize(text=line)
-                ).strip()
-
-                matches = text_pattern.match(cleaned_line)
-
-                label = matches.group(2).strip()  # type: ignore
-                text = matches.group(3).strip()  # type: ignore
-
-                records.append({"emotion": label, "text": text})
+                records.append(
+                    {
+                        "id": id,
+                        "text": text,
+                        "emotion": emotion,
+                    }
+                )
 
         # Move records to a Pandas DataFrame
         df = pd.DataFrame.from_records(records)  # noqa: F841
@@ -207,13 +185,13 @@ class EmotionStimulusProcessor(DatasetBase):
                 CREATE OR REPLACE TABLE temp
                 AS
                     SELECT
+                        id,
                         text,
                         CAST(anger AS BOOL) AS anger,
                         CAST(disgust AS BOOL) AS disgust,
                         CAST(fear AS BOOL) AS fear,
-                        CAST(happy AS BOOL) AS happy,
-                        CAST(sad AS BOOL) AS sad,
-                        CAST(shame AS BOOL) AS shame,
+                        CAST(joy AS BOOL) AS joy,
+                        CAST(sadness AS BOOL) AS sadness,
                         CAST(surprise AS BOOL) AS surprise,
                     FROM (
                         PIVOT df
@@ -287,7 +265,7 @@ class EmotionStimulusProcessor(DatasetBase):
 
         logger.info("Processing - Finished dataset processing.")
 
-        processing_result = EmotionStimulusProcessingResult(
+        processing_result = TECProcessingResult(
             temp_dir=temp_data_dir,
             data_dir=data_subdir,
         )
@@ -296,12 +274,12 @@ class EmotionStimulusProcessor(DatasetBase):
 
     def teardown(
         self,
-        download_result: EmotionStimulusDownloadResult,
-        processing_result: EmotionStimulusProcessingResult,
+        download_result: TECDownloadResult,
+        processing_result: TECProcessingResult,
         storage_options: dict,
     ) -> None:
         download_result.zip_path.unlink()
-        shutil.rmtree(download_result.extracted_files_path)
+        shutil.rmtree(download_result.downloads_subdir)
 
         if processing_result.temp_dir.exists():
             logger.debug("Teardown - Temp directory still exists")

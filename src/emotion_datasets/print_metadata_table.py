@@ -24,12 +24,13 @@ DATASET_SIZES = {
     "SSEC": "4.8k",
     "StockEmotions": "10k",
     "TalesEmotions": "15k",
+    "TEC": "21k",
     "UsVsThem": "6.8k",
     "WASSA22": "2.1k",
     "XED": "27k",
 }
 
-NAME_ANNOTATIONS = {"REN20k": "[1]"}
+NAME_ANNOTATIONS = {"REN20k": "[1]", "TalesEmotions": "[1]"}
 
 if __name__ == "__main__":
     rows = []
