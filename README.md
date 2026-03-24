@@ -151,6 +151,8 @@ If you use this repo, please make sure to cite the datasets you parsed. Also, pl
 | emotion-cause                                                                                                                          |                                        |
 | emotiondata-aman                                                                                                                       |                                        |
 | [IMS Datasets](https://www.ims.uni-stuttgart.de/forschung/ressourcen/korpora/emotion/)                                                 |                                        |
+| [Friends dialogues](https://github.com/bshmueli/EmotionX-2019)                                                 | Lines from the show 'Friends' annotated for emotion |
+| [Emotion Push](https://github.com/bshmueli/EmotionX-2019) | Messenger chats annotated line-by-line for emotion |
 
 ### Notes
 
@@ -171,5 +173,7 @@ If you use this repo, please make sure to cite the datasets you parsed. Also, pl
 | [Grounded Emotion](https://web.eecs.umich.edu/~mihalcea/downloads.html#GroundedEmotions) | SoTA classifiers cannot beat random performance |
 | [dailydialog](http://yanran.li/dailydialog)                                              | Avoiding conversational data for now            |
 | [EmoWoz](https://huggingface.co/datasets/hhu-dsml/emowoz)                                | Avoiding conversational data for now            |
+| [MELD](https://aclanthology.org/P19-1050.pdf) | Already incorporated in various other datasets |
+| [EmotionLines](https://aclanthology.org/L18-1252.pdf) | Avoiding conversational data for now |
 
 </details>
